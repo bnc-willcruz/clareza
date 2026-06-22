@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Clareza — Ateliê da Ana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --surface2: #f5f2ee;
+  --border: #e8e2d8;
+  --border2: #d4ccbf;
+  --text: #1a1612;
+  --muted: #8a7e72;
+  --dim: #b8ad9e;
+  --rose: #c4785a;
+  --rose2: #e8b89a;
+  --rose3: #faf0ea;
+  --green: #5a7a5a;
+  --green2: #eaf2ea;
+  --amber: #8a6a2a;
+  --amber2: #fdf6e8;
+  --red: #8a3a3a;
+  --red2: #faeaea;
+  --ff-display: 'Cormorant Garamond', Georgia, serif;
+  --ff-body: 'DM Sans', sans-serif;
+  --ff-mono: 'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-body);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── SHELL ── */
+.shell { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 230px; min-width: 230px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: fixed; top: 0; left: 0;
+  height: 100vh; overflow-y: auto;
+  display: flex; flex-direction: column;
+  z-index: 100;
+}
+.main { margin-left: 230px; flex: 1; }
+
+/* ── SIDEBAR ── */
+.sidebar-brand {
+  padding: 1.4rem 1.2rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.brand-name {
+  font-family: var(--ff-display);
+  font-size: 1.4rem; font-weight: 300;
+  color: var(--text); letter-spacing: -0.01em;
+}
+.brand-name span { color: var(--rose); font-style: italic; }
+.brand-client {
+  font-size: 0.62rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 3px;
+}
+.nav { padding: 0.8rem 0; flex: 1; }
+.nav-section {
+  font-size: 0.58rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--dim);
+  padding: 0.5rem 1.2rem 0.2rem;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0.5rem 1.2rem; cursor: pointer;
+  font-size: 0.75rem; color: var(--muted);
+  transition: all 0.12s;
+  border-left: 2px solid transparent;
+  user-select: none;
+}
+.nav-item:hover { color: var(--text); background: var(--surface2); }
+.nav-item.active { color: var(--rose); border-left-color: var(--rose); background: var(--rose3); }
+.nav-badge {
+  margin-left: auto;
+  background: var(--rose); color: white;
+  font-size: 0.55rem; border-radius: 10px;
+  padding: 1px 6px; font-family: var(--ff-mono);
+}
+
+/* ── SECTIONS ── */
+.section { display: none; min-height: 100vh; padding: 2rem 2rem; max-width: 860px; }
+.section.active { display: block; animation: fadeUp 0.25s ease both; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 2rem;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-date { font-size: 0.72rem; color: var(--muted); }
+.topbar-greeting { font-family: var(--ff-display); font-size: 1rem; color: var(--text); }
+.topbar-right { display: flex; gap: 0.5rem; align-items: center; }
+.dot-pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green); animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.topbar-status { font-size: 0.65rem; color: var(--green); }
+
+/* ── PAGE HEADER ── */
+.page-eyebrow { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.page-title { font-family: var(--ff-display); font-size: clamp(1.6rem,4vw,2.4rem); font-weight: 300; line-height: 1.15; margin-bottom: 0.4rem; }
+.page-title em { color: var(--rose); font-style: italic; }
+.page-lead { font-size: 0.83rem; color: var(--muted); max-width: 520px; margin-bottom: 1.8rem; line-height: 1.7; border-left: 2px solid var(--border2); padding-left: 0.8rem; }
+
+/* ── CARDS ── */
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.7rem; margin-bottom: 1.2rem; }
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.9rem 1rem;
+}
+.kpi.rose { border-color: #e8b89a; background: var(--rose3); }
+.kpi-label { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.kpi-value { font-family: var(--ff-mono); font-size: 1.1rem; color: var(--text); }
+.kpi-delta { font-size: 0.62rem; margin-top: 3px; }
+.kpi-delta.up { color: var(--green); }
+.kpi-delta.down { color: var(--red); }
+.kpi-delta.warn { color: var(--amber); }
+
+/* ── BRIEFING ── */
+.briefing-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 1.1rem;
+  margin-bottom: 1rem;
+}
+.briefing-header {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 0.8rem;
+}
+.briefing-title { font-family: var(--ff-display); font-size: 1rem; color: var(--text); }
+.ai-badge {
+  font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--rose3); color: var(--rose);
+  border: 1px solid var(--rose2); border-radius: 3px;
+  padding: 2px 7px; white-space: nowrap;
+}
+.insight-item {
+  display: flex; gap: 10px; padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border); font-size: 0.78rem;
+  align-items: flex-start;
+}
+.insight-item:last-child { border: none; padding-bottom: 0; }
+.insight-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+.insight-text { color: var(--muted); line-height: 1.55; }
+.insight-text strong { color: var(--text); font-weight: 500; }
+
+/* ── PIPELINE ── */
+.pipeline { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.7rem; margin: 0.8rem 0; }
+.pipeline-col { }
+.pipeline-head {
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pipeline-count {
+  background: var(--surface2); border-radius: 10px;
+  padding: 1px 7px; font-family: var(--ff-mono); font-size: 0.6rem;
+}
+.order-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px; padding: 0.7rem 0.75rem;
+  margin-bottom: 0.5rem; cursor: pointer;
+  transition: all 0.12s; font-size: 0.72rem;
+}
+.order-card:hover { border-color: var(--border2); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.order-card.urgent { border-left: 3px solid var(--rose); }
+.order-card.ok { border-left: 3px solid var(--green); }
+.order-card.warn { border-left: 3px solid #d4a020; }
+.order-name { font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.order-desc { color: var(--muted); font-size: 0.68rem; line-height: 1.4; }
+.order-date { font-family: var(--ff-mono); font-size: 0.62rem; color: var(--dim); margin-top: 4px; }
+.order-value { font-family: var(--ff-mono); font-size: 0.7rem; color: var(--rose); margin-top: 3px; }
+
+/* ── DECISIONS ── */
+.decision-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px; padding: 0.8rem 1rem;
+  margin-bottom: 0.6rem; display: flex; gap: 12px; align-items: flex-start;
+}
+.dec-bar { width: 4px; border-radius: 2px; align-self: stretch; min-height: 36px; flex-shrink: 0; }
+.dec-bar.urgent { background: var(--rose); }
+.dec-bar.mid { background: #d4a020; }
+.dec-bar.low { background: var(--green); }
+.dec-label { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.dec-title { font-size: 0.8rem; color: var(--text); font-weight: 500; margin-bottom: 3px; }
+.dec-context { font-size: 0.7rem; color: var(--muted); line-height: 1.5; }
+
+/* ── CHAT ── */
+.chat-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+}
+.chat-header {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+  background: var(--rose3);
+}
+.chat-header-icon { font-size: 1rem; }
+.chat-header-title { font-family: var(--ff-display); font-size: 0.95rem; color: var(--text); }
+.chat-header-sub { font-size: 0.62rem; color: var(--muted); }
+.chat-messages {
+  height: 360px; overflow-y: auto;
+  padding: 1rem; display: flex;
+  flex-direction: column; gap: 0.8rem;
+}
+.msg { display: flex; gap: 8px; align-items: flex-start; }
+.msg.user { flex-direction: row-reverse; }
+.msg-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--surface2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; flex-shrink: 0;
+  color: var(--muted); font-family: var(--ff-mono);
+}
+.msg.user .msg-avatar { background: var(--rose3); border-color: var(--rose2); color: var(--rose); }
+.msg-bubble {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.6rem 0.85rem;
+  font-size: 0.76rem; color: var(--muted); line-height: 1.65; max-width: 78%;
+}
+.msg.user .msg-bubble { background: var(--rose3); border-color: var(--rose2); color: var(--text); }
+.msg-bubble strong { color: var(--text); font-weight: 500; }
+.msg-source {
+  font-size: 0.6rem; color: var(--rose);
+  border-top: 1px solid var(--border); padding-top: 5px; margin-top: 6px;
+}
+.msg-typing { display: flex; gap: 4px; align-items: center; padding: 8px 0; }
+.typing-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--rose2); animation: bounce 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-4px)} }
+.chat-input-area {
+  border-top: 1px solid var(--border);
+  padding: 0.7rem 1rem; display: flex; gap: 0.5rem;
+  background: var(--surface);
+}
+.chat-input {
+  flex: 1; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 0.45rem 1rem; font-size: 0.76rem;
+  color: var(--text); font-family: var(--ff-body); outline: none;
+  transition: border-color 0.12s;
+}
+.chat-input:focus { border-color: var(--rose2); }
+.chat-send {
+  background: var(--rose); color: white; border: none;
+  border-radius: 20px; padding: 0.4rem 1rem;
+  font-size: 0.72rem; font-family: var(--ff-body);
+  cursor: pointer; font-weight: 500; transition: opacity 0.12s;
+}
+.chat-send:hover { opacity: 0.85; }
+.quick-questions { padding: 0.5rem 1rem 0.8rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.quick-btn {
+  font-size: 0.65rem; padding: 0.3rem 0.7rem;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 15px; cursor: pointer; color: var(--muted);
+  transition: all 0.12s; font-family: var(--ff-body);
+}
+.quick-btn:hover { border-color: var(--rose2); color: var(--rose); background: var(--rose3); }
+
+/* ── FINANCEIRO ── */
+.fin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-bottom: 1rem; }
+.fin-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 1rem;
+}
+.fin-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.fin-value { font-family: var(--ff-mono); font-size: 1.2rem; color: var(--text); }
+.fin-value.rose { color: var(--rose); }
+.fin-value.green { color: var(--green); }
+.fin-value.red { color: var(--red); }
+.fin-sub { font-size: 0.68rem; color: var(--dim); margin-top: 3px; }
+
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem; font-size: 0.72rem; }
+.bar-label { width: 120px; color: var(--muted); flex-shrink: 0; }
+.bar-track { flex: 1; background: var(--surface2); border-radius: 3px; height: 8px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+.bar-val { width: 70px; text-align: right; font-family: var(--ff-mono); font-size: 0.68rem; color: var(--text); flex-shrink: 0; }
+
+/* ── MISC ── */
+.section-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+.tag {
+  display: inline-block; font-size: 0.58rem; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 2px 7px; border-radius: 3px; border: 1px solid; margin: 2px;
+}
+.tag.rose { color: var(--rose); border-color: var(--rose2); background: var(--rose3); }
+.tag.green { color: var(--green); border-color: #b8d4b8; background: var(--green2); }
+.tag.amber { color: var(--amber); border-color: #d4c080; background: var(--amber2); }
+.tag.gray { color: var(--muted); border-color: var(--border2); background: var(--surface2); }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.76rem; }
+th { text-align: left; padding: 0.4rem 0.6rem; color: var(--muted); font-weight: 400; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--surface2); color: var(--muted); }
+tr:last-child td { border: none; }
+td.hi { color: var(--text); font-weight: 500; }
+td.rose { color: var(--rose); font-family: var(--ff-mono); }
+td.green { color: var(--green); }
+td.red { color: var(--red); }
+td.amber { color: var(--amber); }
+
+p { color: var(--muted); font-size: 0.83rem; line-height: 1.75; margin-bottom: 0.8rem; }
+strong { color: var(--text); font-weight: 500; }
+h2 { font-family: var(--ff-display); font-size: 1.1rem; font-weight: 400; color: var(--text); margin: 1.5rem 0 0.6rem; }
+h3 { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 1.2rem 0 0.5rem; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+@media (max-width: 680px) {
+  .sidebar { width: 60px; min-width: 60px; }
+  .sidebar .brand-name, .sidebar .brand-client, .nav-section, .nav-item span, .nav-badge { display: none; }
+  .nav-item { justify-content: center; padding: 0.6rem; }
+  .main { margin-left: 60px; }
+  .section { padding: 1.2rem; }
+  .kpi-row { grid-template-columns: repeat(2,1fr); }
+  .pipeline { grid-template-columns: repeat(2,1fr); }
+  .fin-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-name">Cla<span>reza</span></div>
+    <div class="brand-client">Ateliê da Ana</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section">Visão geral</div>
+    <div class="nav-item active" onclick="go('dashboard',this)"><span>📊</span> <span>Dashboard</span> <div class="nav-badge">3</div></div>
+    <div class="nav-item" onclick="go('pedidos',this)"><span>🎂</span> <span>Pedidos</span> <div class="nav-badge">8</div></div>
+    <div class="nav-item" onclick="go('financeiro',this)"><span>💰</span> <span>Financeiro</span></div>
+
+    <div class="nav-section" style="margin-top:0.5rem">Inteligência</div>
+    <div class="nav-item" onclick="go('perguntar',this)"><span>💬</span> <span>Perguntar</span></div>
+    <div class="nav-item" onclick="go('decisoes',this)"><span>⚖️</span> <span>Decisões</span> <div class="nav-badge">4</div></div>
+
+    <div class="nav-section" style="margin-top:0.5rem">Contexto</div>
+    <div class="nav-item" onclick="go('piloto',this)"><span>🗺</span> <span>Como funciona</span></div>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div>
+    <div class="topbar-date">Segunda-feira, 9 de junho de 2026</div>
+    <div class="topbar-greeting">Ateliê da Ana — semana 23</div>
+  </div>
+  <div class="topbar-right">
+    <div class="dot-pulse"></div>
+    <div class="topbar-status">Contexto atualizado</div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<section class="section active" id="dashboard">
+  <div class="page-eyebrow">Visão geral</div>
+  <h1 class="page-title">Bom dia, Ana. <em>Aqui está<br>o que importa hoje.</em></h1>
+
+  <div class="kpi-row">
+    <div class="kpi rose">
+      <div class="kpi-label">Pedidos esta semana</div>
+      <div class="kpi-value">8</div>
+      <div class="kpi-delta warn">⚠ 2 sem confirmação</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Receita confirmada</div>
+      <div class="kpi-value">R$ 1.840</div>
+      <div class="kpi-delta up">↑ 23% vs semana passada</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Entregas hoje</div>
+      <div class="kpi-value">2</div>
+      <div class="kpi-delta warn">Bolo Mariana · 14h</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Ingredientes em falta</div>
+      <div class="kpi-value">3</div>
+      <div class="kpi-delta down">↓ Manteiga, chocolate, limão</div>
+    </div>
+  </div>
+
+  <!-- BRIEFING -->
+  <div class="briefing-card">
+    <div class="briefing-header">
+      <div>
+        <div class="briefing-title">Síntese gerada pela Clareza</div>
+        <div style="font-size:0.65rem;color:var(--muted);margin-top:2px">Baseada nas conversas de WhatsApp e histórico do ateliê</div>
+      </div>
+      <div class="ai-badge">IA + contexto seu</div>
+    </div>
+
+    <div class="insight-item">
+      <div class="insight-icon">🔴</div>
+      <div class="insight-text"><strong>Fernanda Silva ainda não confirmou o sinal do bolo de casamento (R$ 600).</strong> Conversa iniciada há 6 dias. Evento em 21/jun — faltam 12 dias. Precisa de confirmação urgente para garantir o cronograma.</div>
+    </div>
+    <div class="insight-item">
+      <div class="insight-icon">⚠️</div>
+      <div class="insight-text"><strong>Semana que vem está com 3 pedidos grandes simultâneos:</strong> bolo naked 3 andares (sáb), 80 brigadeiros gourmet (sex) e torta de limão encomenda (sex). Produção precisa começar na quarta.</div>
+    </div>
+    <div class="insight-item">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>4 clientes pediram "algo personalizado para presente" nos últimos 30 dias.</strong> Você não tem um produto fixo para isso. Pode ser uma oportunidade de criar uma caixa presente padrão com preço fechado.</div>
+    </div>
+    <div class="insight-item">
+      <div class="insight-icon">📦</div>
+      <div class="insight-text"><strong>Manteiga e chocolate belga estão acabando</strong> — com base nos pedidos da semana, o estoque não cobre a produção de quinta. Compra até terça-feira é necessária.</div>
+    </div>
+    <div class="insight-item">
+      <div class="insight-icon">🌟</div>
+      <div class="insight-text"><strong>Júlia Ramos deixou 5 estrelas no Instagram e marcou 3 amigas</strong> no post do bolo de aniversário entregue sexta. Nenhuma das 3 foi respondida ainda — resposta rápida pode gerar novos pedidos.</div>
+    </div>
+  </div>
+
+  <!-- DECISÕES RÁPIDAS -->
+  <h3>Decisões pendentes esta semana</h3>
+  <div class="decision-item">
+    <div class="dec-bar urgent"></div>
+    <div>
+      <div class="dec-label">Urgente — hoje</div>
+      <div class="dec-title">Confirmar ou cancelar pedido Fernanda?</div>
+      <div class="dec-context">Evento em 12 dias. Sem sinal, o cronograma fica inviável. Última mensagem dela: "te aviso ainda essa semana" — há 3 dias.</div>
+    </div>
+  </div>
+  <div class="decision-item">
+    <div class="dec-bar mid"></div>
+    <div>
+      <div class="dec-label">Esta semana</div>
+      <div class="dec-title">Aceitar mais um pedido para sábado?</div>
+      <div class="dec-context">Marina perguntou sobre 50 docinhos para sábado. Com os 3 pedidos já confirmados, a capacidade está no limite. Aceitar pode comprometer a qualidade.</div>
+    </div>
+  </div>
+  <div class="decision-item">
+    <div class="dec-bar low"></div>
+    <div>
+      <div class="dec-label">Esta semana</div>
+      <div class="dec-title">Criar um produto "caixa presente" padrão?</div>
+      <div class="dec-context">4 pedidos similares em 30 dias sugerem demanda. Um produto com preço fechado evitaria negociação caso a caso e aceleraria a venda.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PEDIDOS ══ -->
+<section class="section" id="pedidos">
+  <div class="page-eyebrow">Gestão de pedidos</div>
+  <h1 class="page-title">Pipeline de <em>pedidos</em><br>da semana.</h1>
+  <p class="page-lead">Todos os pedidos organizados por etapa — do primeiro contato até a entrega. Nenhum combinado se perde.</p>
+
+  <div class="pipeline">
+    <div class="pipeline-col">
+      <div class="pipeline-head">
+        Interesse <span class="pipeline-count">3</span>
+      </div>
+      <div class="order-card warn">
+        <div class="order-name">Fernanda Silva</div>
+        <div class="order-desc">Bolo casamento 3 andares naked cake</div>
+        <div class="order-date">📅 21/jun · ⚠ sem sinal</div>
+        <div class="order-value">R$ 600</div>
+      </div>
+      <div class="order-card">
+        <div class="order-name">Marina Costa</div>
+        <div class="order-desc">50 docinhos gourmet festa infantil</div>
+        <div class="order-date">📅 15/jun · aguardando</div>
+        <div class="order-value">R$ 350</div>
+      </div>
+      <div class="order-card">
+        <div class="order-name">@maricota_oficial</div>
+        <div class="order-desc">DM Instagram — presente amiga</div>
+        <div class="order-date">📅 sem data · novo contato</div>
+        <div class="order-value">A definir</div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-head">
+        Confirmado <span class="pipeline-count">3</span>
+      </div>
+      <div class="order-card ok">
+        <div class="order-name">Juliana Ramos</div>
+        <div class="order-desc">Torta naked morango + chantilly</div>
+        <div class="order-date">📅 13/jun sex · sinal pago</div>
+        <div class="order-value">R$ 280</div>
+      </div>
+      <div class="order-card ok">
+        <div class="order-name">Roberto Alves</div>
+        <div class="order-desc">80 brigadeiros gourmet — evento empresa</div>
+        <div class="order-date">📅 14/jun sex · pago integral</div>
+        <div class="order-value">R$ 480</div>
+      </div>
+      <div class="order-card ok">
+        <div class="order-name">Família Mendes</div>
+        <div class="order-desc">Bolo aniversário 50 anos — 3 andares</div>
+        <div class="order-date">📅 15/jun sáb · sinal pago</div>
+        <div class="order-value">R$ 520</div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-head">
+        Produção <span class="pipeline-count">1</span>
+      </div>
+      <div class="order-card urgent">
+        <div class="order-name">Mariana Pinto</div>
+        <div class="order-desc">Bolo chocolate recheado — entrega HOJE 14h</div>
+        <div class="order-date">📅 9/jun hoje · 🔴 urgente</div>
+        <div class="order-value">R$ 240</div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-head">
+        Entregue <span class="pipeline-count">4</span>
+      </div>
+      <div class="order-card" style="opacity:0.6">
+        <div class="order-name">Júlia Ramos ⭐⭐⭐⭐⭐</div>
+        <div class="order-desc">Bolo aniversário pink — avaliação 5 estrelas</div>
+        <div class="order-date">📅 06/jun · pago</div>
+        <div class="order-value">R$ 320</div>
+      </div>
+      <div class="order-card" style="opacity:0.6">
+        <div class="order-name">Carla Diniz</div>
+        <div class="order-desc">Kit 30 bem-casados</div>
+        <div class="order-date">📅 05/jun · pago</div>
+        <div class="order-value">R$ 180</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FINANCEIRO ══ -->
+<section class="section" id="financeiro">
+  <div class="page-eyebrow">Financeiro</div>
+  <h1 class="page-title">Quanto o ateliê<br><em>está gerando</em> de verdade.</h1>
+  <p class="page-lead">Pela primeira vez, uma visão clara do que entra, o que sai, e o que sobra — sem planilha, sem contador, sem mistério.</p>
+
+  <div class="fin-row">
+    <div class="fin-card">
+      <div class="fin-label">Receita — junho (projetada)</div>
+      <div class="fin-value rose">R$ 4.870</div>
+      <div class="fin-sub">Pedidos confirmados + pipeline quente</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-label">Custo ingredientes estimado</div>
+      <div class="fin-value" style="color:var(--amber)">R$ 1.460</div>
+      <div class="fin-sub">~30% da receita (meta: abaixo de 35%)</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-label">Margem estimada junho</div>
+      <div class="fin-value green">R$ 3.410</div>
+      <div class="fin-sub">70% — acima da média do setor (55-60%)</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-label">Ticket médio — últimos 30d</div>
+      <div class="fin-value rose">R$ 312</div>
+      <div class="fin-sub">↑ R$ 47 vs maio — crescendo</div>
+    </div>
+  </div>
+
+  <h2>Receita por tipo de produto</h2>
+  <div style="margin:0.8rem 0 1.2rem">
+    <div class="bar-row">
+      <div class="bar-label">Bolos decorados</div>
+      <div class="bar-track"><div class="bar-fill" style="width:62%;background:var(--rose)"></div></div>
+      <div class="bar-val">R$ 2.480 · 51%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Doces finos</div>
+      <div class="bar-track"><div class="bar-fill" style="width:28%;background:var(--rose2)"></div></div>
+      <div class="bar-val">R$ 1.120 · 23%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Tortas</div>
+      <div class="bar-track"><div class="bar-fill" style="width:18%;background:#e8d4c0)"></div></div>
+      <div class="bar-val">R$ 740 · 15%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Outros</div>
+      <div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--dim)"></div></div>
+      <div class="bar-val">R$ 530 · 11%</div>
+    </div>
+  </div>
+
+  <h2>O que a Clareza identificou</h2>
+  <table>
+    <thead><tr><th>Insight</th><th>Impacto</th><th>Ação sugerida</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="hi">Bolos sob encomenda têm margem 18% maior que doces</td>
+        <td class="green">Alto</td>
+        <td>Priorizar na divulgação</td>
+      </tr>
+      <tr>
+        <td class="hi">3 pedidos cancelados em maio por prazo muito curto</td>
+        <td class="amber">Médio</td>
+        <td>Definir prazo mínimo de 5 dias</td>
+      </tr>
+      <tr>
+        <td class="hi">Pedidos corporativos (Roberto, empresa) têm ticket 2× maior</td>
+        <td class="green">Alto</td>
+        <td>Criar proposta B2B</td>
+      </tr>
+      <tr>
+        <td class="hi">Sábado concentra 68% das entregas</td>
+        <td class="amber">Médio</td>
+        <td>Distribuir ou cobrar taxa express</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══ PERGUNTAR ══ -->
+<section class="section" id="perguntar">
+  <div class="page-eyebrow">Inteligência do negócio</div>
+  <h1 class="page-title">Pergunte sobre<br><em>o seu ateliê.</em></h1>
+  <p class="page-lead">A Clareza conhece o histórico de pedidos, clientes, conversas e decisões do ateliê. Pergunte como se estivesse conversando com alguém que viu tudo acontecer.</p>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="chat-header-icon">✨</div>
+      <div>
+        <div class="chat-header-title">Clareza — Ateliê da Ana</div>
+        <div class="chat-header-sub">47 conversas · 3 meses de contexto · atualizado hoje</div>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chat-msgs">
+      <div class="msg">
+        <div class="msg-avatar">✨</div>
+        <div class="msg-bubble">
+          Oi, Ana! Estou com acesso ao histórico do seu ateliê — pedidos, conversas com clientes, ingredientes e padrões dos últimos 3 meses. O que você precisa entender hoje?
+        </div>
+      </div>
+      <div class="msg user">
+        <div class="msg-avatar">A</div>
+        <div class="msg-bubble">Por que minhas vendas caem toda segunda e terça?</div>
+      </div>
+      <div class="msg">
+        <div class="msg-avatar">✨</div>
+        <div class="msg-bubble">
+          Analisando os pedidos dos últimos 3 meses, o padrão é claro: <strong>89% dos pedidos chegam entre quarta e domingo</strong>.<br><br>
+          Os motivos identificados no histórico:<br><br>
+          <strong>1. Seus posts no Instagram</strong> são publicados quase sempre na quinta e sexta — o engajamento chega no fim de semana, quando as pessoas planejam eventos próximos.<br><br>
+          <strong>2. Pedidos de aniversário</strong> (seu maior volume) são planejados com 4–7 dias de antecedência em média. Quem decide comprar no sábado, faz o pedido na terça ou quarta.<br><br>
+          <strong>Sugestão:</strong> Postar conteúdo de segunda "inspiração da semana" pode antecipar esse ciclo e movimentar segunda e terça.
+          <div class="msg-source">📎 Fontes: histórico de 34 pedidos · análise de datas de contato</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-questions">
+      <button class="quick-btn" onclick="quickAsk('Qual meu produto mais lucrativo?')">Produto mais lucrativo?</button>
+      <button class="quick-btn" onclick="quickAsk('Quais clientes somem após o primeiro pedido?')">Clientes que somem?</button>
+      <button class="quick-btn" onclick="quickAsk('Quanto cobrar por um bolo de 2 andares?')">Quanto cobrar?</button>
+      <button class="quick-btn" onclick="quickAsk('Estou trabalhando muito para o que ganho?')">Estou ganhando o suficiente?</button>
+      <button class="quick-btn" onclick="quickAsk('Qual a melhor época do ano para o ateliê?')">Melhor época do ano?</button>
+    </div>
+
+    <div class="chat-input-area">
+      <input class="chat-input" id="chat-input" type="text"
+        placeholder="Pergunte sobre pedidos, clientes, preços, capacidade..."
+        onkeydown="if(event.key==='Enter')sendMsg()"/>
+      <button class="chat-send" onclick="sendMsg()">Enviar</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DECISÕES ══ -->
+<section class="section" id="decisoes">
+  <div class="page-eyebrow">Clareza para decidir</div>
+  <h1 class="page-title">O que precisa de<br><em>uma decisão sua</em> agora.</h1>
+  <p class="page-lead">A Clareza identificou esses pontos abertos nas conversas e no histórico do ateliê. Cada um tem o contexto disponível para você decidir com mais segurança.</p>
+
+  <div class="decision-item">
+    <div class="dec-bar urgent"></div>
+    <div style="flex:1">
+      <div class="dec-label">🔴 Urgente — responder hoje</div>
+      <div class="dec-title">Cobrar ou liberar o pedido da Fernanda?</div>
+      <div class="dec-context">Evento em 12 dias. Sem sinal, você não consegue garantir os ingredientes especiais. Ela já foi contactada 2 vezes. Com base em outros pedidos similares: clientes que demoram mais de 7 dias para confirmar cancelam 60% das vezes.</div>
+      <div style="margin-top:0.6rem;display:flex;gap:0.4rem;flex-wrap:wrap">
+        <span class="tag rose">Pedido: R$ 600</span>
+        <span class="tag amber">6 dias sem resposta</span>
+        <span class="tag gray">Evento: 21/jun</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="decision-item">
+    <div class="dec-bar mid"></div>
+    <div style="flex:1">
+      <div class="dec-label">⚠ Esta semana</div>
+      <div class="dec-title">Aceitar o pedido da Marina para sábado?</div>
+      <div class="dec-context">50 docinhos + os 3 pedidos já confirmados = cerca de 10h de produção no sábado. Seu histórico mostra que acima de 8h em um dia a qualidade cai (2 pedidos refeitos em março por isso). Alternativa: propor entrega na sexta ou cobrar R$ 50 de taxa express.</div>
+      <div style="margin-top:0.6rem;display:flex;gap:0.4rem;flex-wrap:wrap">
+        <span class="tag rose">Receita: R$ 350</span>
+        <span class="tag amber">Capacidade: limite</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="decision-item">
+    <div class="dec-bar mid"></div>
+    <div style="flex:1">
+      <div class="dec-label">⚠ Esta semana</div>
+      <div class="dec-title">Criar um produto "caixa presente" fixo?</div>
+      <div class="dec-context">4 clientes nos últimos 30 dias perguntaram por algo personalizado para presente, mas sem ideia de preço ou produto. Cada negociação levou em média 40 minutos. Um kit padrão (ex: 12 doces + caixa kraft + fita) com preço fixo de R$ 120 eliminaria essa negociação e poderia vender pelo Instagram sem precisar de conversa.</div>
+      <div style="margin-top:0.6rem;display:flex;gap:0.4rem;flex-wrap:wrap">
+        <span class="tag green">Potencial: R$ 480+/mês</span>
+        <span class="tag gray">4 menções em 30 dias</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="decision-item">
+    <div class="dec-bar low"></div>
+    <div style="flex:1">
+      <div class="dec-label">💡 Quando tiver tempo</div>
+      <div class="dec-title">Responder as 3 amigas marcadas pela Júlia</div>
+      <div class="dec-context">Júlia marcou @carol.eventos, @patyfestesbh e @lumariafestas no post de quinta. Nenhuma foi respondida ainda. Com base no perfil das contas, pelo menos uma parece organizar eventos com frequência — pode virar cliente recorrente.</div>
+      <div style="margin-top:0.6rem;display:flex;gap:0.4rem;flex-wrap:wrap">
+        <span class="tag green">Baixo esforço</span>
+        <span class="tag gray">Alto potencial</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PILOTO ══ -->
+<section class="section" id="piloto">
+  <div class="page-eyebrow">Como funciona o piloto</div>
+  <h1 class="page-title">O que é real<br><em>hoje.</em> O que vira<br><em>produto amanhã.</em></h1>
+  <p class="page-lead">Este protótipo mostra como a Clareza funcionaria para o Ateliê da Ana. No piloto real, a maioria das informações vem de uma configuração simples — sem integração automática ainda.</p>
+
+  <h2>O que o piloto entrega (hoje, manual)</h2>
+  <table>
+    <thead><tr><th>Entrega</th><th>Como funciona</th><th>Frequência</th></tr></thead>
+    <tbody>
+      <tr><td class="hi">Briefing semanal</td><td>1 página com o que importa naquela semana — pedidos, decisões, alertas</td><td class="rose">Toda segunda</td></tr>
+      <tr><td class="hi">Pipeline de pedidos</td><td>Tabela atualizada com status de cada pedido em aberto</td><td class="rose">Diário</td></tr>
+      <tr><td class="hi">Alertas de prazo</td><td>Pedidos sem confirmação, entregas próximas, ingredientes a comprar</td><td class="rose">Quando necessário</td></tr>
+      <tr><td class="hi">Insights de negócio</td><td>Padrões identificados: produto mais lucrativo, clientes que voltam, capacidade</td><td class="rose">Semanal</td></tr>
+      <tr><td class="hi">Suporte a decisões</td><td>Contexto estruturado para as decisões recorrentes do ateliê</td><td class="rose">Sob demanda</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Stack do piloto — zero custo de desenvolvimento</h2>
+  <table>
+    <thead><tr><th>Ferramenta</th><th>Para quê</th><th>Custo</th></tr></thead>
+    <tbody>
+      <tr><td class="hi">WhatsApp (já tem)</td><td>Captura de pedidos e conversas com clientes</td><td class="green">Grátis</td></tr>
+      <tr><td class="hi">Google Sheets</td><td>Registro de pedidos, receitas, custos</td><td class="green">Grátis</td></tr>
+      <tr><td class="hi">Claude (IA)</td><td>Síntese, análise, geração do briefing</td><td class="rose">~R$ 100/mês</td></tr>
+      <tr><td class="hi">Notion</td><td>Base de contexto — histórico de decisões e padrões</td><td class="green">Grátis</td></tr>
+      <tr><td class="hi">Este painel (protótipo)</td><td>Visualização — evoluirá para produto real</td><td class="green">Grátis</td></tr>
+    </tbody>
+  </table>
+
+  <h2>O que você valida com esse piloto</h2>
+  <div class="decision-item">
+    <div class="dec-bar urgent"></div>
+    <div>
+      <div class="dec-title">A dor é real o suficiente para pagar?</div>
+      <div class="dec-context">Após 30 dias: "Você pagaria R$ 500/mês para continuar tendo isso?" — essa resposta vale mais do que qualquer pesquisa de mercado.</div>
+    </div>
+  </div>
+  <div class="decision-item">
+    <div class="dec-bar mid"></div>
+    <div>
+      <div class="dec-title">Quanto tempo leva para entregar valor?</div>
+      <div class="dec-context">Controla as horas gastas por semana. Se for menos de 4h para entregar clareza real, a margem do produto é excelente.</div>
+    </div>
+  </div>
+  <div class="decision-item">
+    <div class="dec-bar low"></div>
+    <div>
+      <div class="dec-title">Qual parte pode ser automatizada?</div>
+      <div class="dec-context">O que hoje você faz manualmente — capturar pedidos, gerar briefing, identificar alertas — é exatamente o que vira feature do produto nas próximas versões.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+function go(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (el) el.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── Chat ──
+const responses = {
+  'Qual meu produto mais lucrativo?': 'Com base nos pedidos dos últimos 90 dias, <strong>bolos decorados sob encomenda têm margem de 72%</strong>, comparado com 58% dos doces finos. O motivo: o custo de ingredientes é similar, mas o valor percebido (e cobrado) é muito maior. Um bolo de R$ 350 leva cerca de 4h. Cinquenta docinhos por R$ 250 levam 3h — a conta de hora trabalhada favorece os bolos. <div class="msg-source">📎 Fontes: 34 pedidos analisados · planilha de custos estimada</div>',
+  'Quais clientes somem após o primeiro pedido?': 'Identifiquei <strong>7 clientes que compraram uma vez e não voltaram nos últimos 60 dias</strong>. Os 3 com maior potencial: Carla Diniz (bem-casados, pode casar de novo 😄), Empresa Nextel (pedido corporativo de R$ 480 — podem ter mais eventos), e @patysantos que comentou "amei, vou encomendar pra minha festa" em agosto — mas nunca entrou em contato. Um "oi, tudo bem? estou com agenda aberta para julho" pode reativar. <div class="msg-source">📎 Fontes: histórico de pedidos · comentários Instagram</div>',
+  'Quanto cobrar por um bolo de 2 andares?': 'Com base nos seus pedidos anteriores e no seu tempo de produção: <strong>bolo 2 andares — faixa de R$ 320 a R$ 480</strong>, dependendo da decoração. Seu ticket médio atual para bolos grandes está em R$ 390. Uma análise rápida: ingredientes ficam em torno de R$ 90–110, produção leva ~5h. Se seu objetivo for R$ 80/hora de trabalho, o preço mínimo saudável é R$ 510. Você pode estar cobrando abaixo do ideal. <div class="msg-source">📎 Fontes: histórico de 12 bolos de dois andares</div>',
+  'Estou trabalhando muito para o que ganho?': 'Essa é a pergunta certa. Estimando com base nos pedidos: você trabalhou cerca de <strong>52 horas nas últimas 2 semanas</strong> e gerou R$ 2.840 em receita confirmada. Isso dá R$ 54/hora bruto — antes de ingredientes. Depois dos custos, fica em torno de R$ 38/hora. É uma renda digna, mas há <strong>3 alavancas para melhorar</strong> sem trabalhar mais: (1) priorizar bolos sobre docinhos, (2) cobrar taxa para pedidos com menos de 5 dias de prazo, (3) criar produto de presente fixo que vende sem negociação. <div class="msg-source">📎 Fontes: pedidos estimados + cálculo de horas por tipo de produto</div>',
+  'Qual a melhor época do ano para o ateliê?': 'Com base nos dados disponíveis e no padrão do setor de confeitaria: <strong>outubro, novembro e dezembro</strong> são os meses de maior volume (festas de fim de ano, formaturas, casamentos de verão). Fevereiro e julho costumam ser mais fracos. A sugestão da Clareza: usar os meses fracos para criar produtos novos, investir em conteúdo e fazer contato com clientes antigos — para que quando outubro chegar, a agenda já esteja cheia. <div class="msg-source">📎 Fontes: sazonalidade do setor + histórico parcial do ateliê</div>',
+};
+
+const fallbacks = [
+  'Com base no histórico do ateliê, consigo ver um padrão interessante aí. Para uma resposta mais precisa, você poderia me dar mais detalhes sobre o contexto? <div class="msg-source">📎 Contexto: 3 meses de pedidos e conversas indexados</div>',
+  'Encontrei algumas menções a isso nas últimas semanas. O que mais te preocupa nesse ponto — é questão de tempo, dinheiro ou qualidade da entrega? <div class="msg-source">📎 Contexto: histórico do ateliê disponível</div>',
+  'Boa pergunta. Cruzando o histórico de pedidos com os padrões de clientes, há algo relevante aqui que vale detalhar melhor. Quer que eu aprofunde em algum aspecto específico? <div class="msg-source">📎 Contexto: Clareza — Ateliê da Ana</div>',
+];
+let fi = 0;
+
+function quickAsk(q) {
+  document.getElementById('chat-input').value = q;
+  sendMsg();
+}
+
+function sendMsg() {
+  const input = document.getElementById('chat-input');
+  const msgs = document.getElementById('chat-msgs');
+  const text = input.value.trim();
+  if (!text) return;
+
+  msgs.innerHTML += `<div class="msg user"><div class="msg-avatar">A</div><div class="msg-bubble">${text}</div></div>`;
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // typing indicator
+  const typingId = 'typing-' + Date.now();
+  msgs.innerHTML += `<div class="msg" id="${typingId}"><div class="msg-avatar">✨</div><div class="msg-bubble"><div class="msg-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  setTimeout(() => {
+    document.getElementById(typingId)?.remove();
+    const reply = responses[text] || fallbacks[fi++ % fallbacks.length];
+    msgs.innerHTML += `<div class="msg"><div class="msg-avatar">✨</div><div class="msg-bubble">${reply}</div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1100);
+}
+</script>
+</body>
+</html>

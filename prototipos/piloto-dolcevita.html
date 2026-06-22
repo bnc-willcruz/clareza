@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Clareza × Dolce Vita Biscoitos</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream:    #faf6f0;
+  --parchment:#f2ebe0;
+  --biscuit:  #e8d5b8;
+  --caramel:  #c49a5a;
+  --cacao:    #3d2a18;
+  --espresso: #1e1208;
+  --glace:    #d4657a;   /* glacê rosa — cor de assinatura */
+  --glace-lt: #f9eaed;
+  --sage:     #6b8c6b;
+  --sage-lt:  #eaf2ea;
+  --amber:    #c47a1e;
+  --amber-lt: #fdf4e3;
+  --text:     #2a1a0e;
+  --muted:    #8a6e54;
+  --dim:      #c4ae96;
+  --border:   #e0d0ba;
+  --border2:  #cbbfa8;
+  --ff-serif: 'Libre Baskerville', Georgia, serif;
+  --ff-sans:  'Jost', sans-serif;
+  --ff-mono:  'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--ff-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── LAYOUT ── */
+.shell { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 240px; min-width: 240px;
+  background: var(--espresso);
+  position: fixed; top: 0; left: 0;
+  height: 100vh; overflow-y: auto;
+  display: flex; flex-direction: column;
+  z-index: 100;
+}
+
+.main { margin-left: 240px; flex: 1; min-width: 0; }
+
+/* ── SIDEBAR ── */
+.sidebar-brand {
+  padding: 1.6rem 1.4rem 1.2rem;
+  border-bottom: 1px solid #2e1e10;
+  display: flex; flex-direction: column; gap: 2px;
+}
+
+.brand-clareza {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--caramel); opacity: 0.7;
+}
+
+.brand-x { color: #3d2a18; margin: 0 4px; }
+
+.brand-name {
+  font-family: var(--ff-serif);
+  font-size: 1.2rem; font-weight: 400;
+  color: var(--cream); letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.brand-name em { color: var(--glace); font-style: italic; }
+
+.brand-sub {
+  font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim); margin-top: 2px;
+}
+
+/* avatar */
+.brand-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid var(--glace);
+  margin-top: 0.8rem;
+  object-fit: cover;
+  display: block;
+}
+
+.nav { padding: 1rem 0; flex: 1; }
+
+.nav-section {
+  font-size: 0.55rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #4a3020;
+  padding: 0.6rem 1.4rem 0.2rem;
+  font-family: var(--ff-mono);
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.55rem 1.4rem; cursor: pointer;
+  font-size: 0.76rem; color: #9a7a5a;
+  font-family: var(--ff-sans); font-weight: 400;
+  transition: all 0.12s;
+  border-left: 2px solid transparent;
+  user-select: none;
+}
+
+.nav-item:hover { color: var(--cream); background: #2e1e10; }
+
+.nav-item.active {
+  color: var(--cream);
+  border-left-color: var(--glace);
+  background: #2a1808;
+}
+
+.nav-item.active .nav-icon { color: var(--glace); }
+
+.nav-badge {
+  margin-left: auto; background: var(--glace);
+  color: white; font-size: 0.55rem;
+  border-radius: 10px; padding: 1px 6px;
+  font-family: var(--ff-mono);
+}
+
+.nav-icon { font-size: 0.9rem; opacity: 0.8; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--parchment);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 2rem;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+
+.topbar-left { display: flex; flex-direction: column; gap: 1px; }
+.topbar-date { font-size: 0.65rem; color: var(--muted); font-family: var(--ff-mono); }
+.topbar-title { font-family: var(--ff-serif); font-size: 0.9rem; color: var(--cacao); }
+
+.topbar-right { display: flex; align-items: center; gap: 0.6rem; }
+
+.status-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--sage);
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+.status-text { font-size: 0.62rem; color: var(--sage); font-family: var(--ff-mono); }
+
+.whats-btn {
+  background: var(--glace); color: white; border: none;
+  border-radius: 20px; padding: 0.35rem 0.9rem;
+  font-size: 0.68rem; font-family: var(--ff-sans);
+  cursor: pointer; font-weight: 500;
+  display: flex; align-items: center; gap: 5px;
+  transition: opacity .12s;
+}
+.whats-btn:hover { opacity: .85; }
+
+/* ── SECTIONS ── */
+.section { display: none; padding: 2rem 2.2rem; max-width: 900px; }
+.section.active { display: block; animation: fadeUp .25s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── PAGE HEADER ── */
+.eyebrow {
+  font-size: 0.58rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--dim);
+  font-family: var(--ff-mono); margin-bottom: 0.4rem;
+}
+
+.page-h1 {
+  font-family: var(--ff-serif);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 400; line-height: 1.2;
+  color: var(--cacao); margin-bottom: 0.4rem;
+}
+
+.page-h1 em { color: var(--glace); font-style: italic; }
+
+.page-lead {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.75;
+  max-width: 520px; margin-bottom: 1.8rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--biscuit);
+}
+
+/* ── KPI ROW ── */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 0.7rem; margin-bottom: 1.2rem;
+}
+
+.kpi {
+  background: white; border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.9rem 1rem;
+}
+
+.kpi.pink { border-top: 3px solid var(--glace); }
+.kpi.green { border-top: 3px solid var(--sage); }
+.kpi.amber { border-top: 3px solid var(--amber); }
+.kpi.cacao { border-top: 3px solid var(--caramel); }
+
+.kpi-label {
+  font-size: 0.58rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+  font-family: var(--ff-mono); margin-bottom: 5px;
+}
+
+.kpi-value {
+  font-family: var(--ff-mono); font-size: 1.15rem;
+  color: var(--cacao);
+}
+
+.kpi-delta { font-size: 0.62rem; margin-top: 3px; }
+.kpi-delta.up { color: var(--sage); }
+.kpi-delta.down { color: var(--glace); }
+.kpi-delta.warn { color: var(--amber); }
+
+/* ── BRIEFING ── */
+.briefing {
+  background: white; border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.briefing-header {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--parchment);
+}
+
+.briefing-title {
+  font-family: var(--ff-serif);
+  font-size: 1rem; color: var(--cacao);
+}
+
+.briefing-sub { font-size: 0.65rem; color: var(--dim); margin-top: 2px; }
+
+.ai-badge {
+  font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--glace-lt); color: var(--glace);
+  border: 1px solid #e8a8b8; border-radius: 3px; padding: 3px 8px;
+  white-space: nowrap; font-family: var(--ff-mono);
+}
+
+.insight {
+  display: flex; gap: 12px; padding: 0.6rem 0;
+  border-bottom: 1px solid var(--parchment); font-size: 0.78rem;
+  align-items: flex-start;
+}
+
+.insight:last-child { border: none; padding-bottom: 0; }
+.insight-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+.insight-text { color: var(--muted); line-height: 1.6; }
+.insight-text strong { color: var(--cacao); font-weight: 600; }
+
+/* ── PIPELINE ── */
+.pipeline {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 0.7rem; margin: 0.8rem 0;
+}
+
+.col-head {
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.5rem; font-family: var(--ff-mono);
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.col-count {
+  background: var(--parchment); border-radius: 10px;
+  padding: 1px 7px; font-family: var(--ff-mono);
+  font-size: 0.6rem; color: var(--muted);
+}
+
+.order {
+  background: white; border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.75rem 0.8rem;
+  margin-bottom: 0.5rem; cursor: pointer;
+  transition: all 0.12s; font-size: 0.72rem;
+}
+
+.order:hover { box-shadow: 0 2px 10px rgba(61,42,24,.08); border-color: var(--biscuit); }
+.order.alert { border-left: 3px solid var(--glace); }
+.order.ok    { border-left: 3px solid var(--sage); }
+.order.warn  { border-left: 3px solid var(--amber); }
+.order.done  { opacity: .6; }
+
+.order-name { font-weight: 600; color: var(--cacao); margin-bottom: 3px; font-size: 0.74rem; }
+.order-desc { color: var(--muted); font-size: 0.68rem; line-height: 1.4; }
+.order-meta { font-family: var(--ff-mono); font-size: 0.6rem; color: var(--dim); margin-top: 4px; }
+.order-value { color: var(--glace); font-family: var(--ff-mono); font-size: 0.7rem; margin-top: 3px; font-weight: 500; }
+
+/* ── DECISIONS ── */
+.decision {
+  background: white; border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.9rem 1rem;
+  margin-bottom: 0.7rem; display: flex; gap: 12px;
+}
+
+.dec-bar {
+  width: 4px; border-radius: 2px;
+  align-self: stretch; min-height: 36px; flex-shrink: 0;
+}
+.dec-bar.urgent { background: var(--glace); }
+.dec-bar.mid    { background: var(--amber); }
+.dec-bar.low    { background: var(--sage); }
+
+.dec-label {
+  font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); font-family: var(--ff-mono); margin-bottom: 3px;
+}
+
+.dec-title { font-size: 0.8rem; color: var(--cacao); font-weight: 600; margin-bottom: 3px; }
+.dec-body  { font-size: 0.72rem; color: var(--muted); line-height: 1.55; }
+
+/* tags */
+.tag {
+  display: inline-block; font-size: 0.58rem; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+  border: 1px solid; margin: 3px 2px 0; font-family: var(--ff-mono);
+}
+.tag.pink  { color: var(--glace); border-color: #e8a8b8; background: var(--glace-lt); }
+.tag.green { color: var(--sage); border-color: #a8c8a8; background: var(--sage-lt); }
+.tag.amber { color: var(--amber); border-color: #d4b060; background: var(--amber-lt); }
+.tag.gray  { color: var(--muted); border-color: var(--border2); background: var(--parchment); }
+
+/* ── FINANCEIRO ── */
+.fin-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: .8rem; margin-bottom: 1.2rem; }
+
+.fin-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 6px; padding: 1rem 1.1rem;
+}
+
+.fin-label { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-family: var(--ff-mono); margin-bottom: 5px; }
+.fin-value { font-family: var(--ff-mono); font-size: 1.25rem; color: var(--cacao); }
+.fin-value.pink  { color: var(--glace); }
+.fin-value.green { color: var(--sage); }
+.fin-sub { font-size: 0.68rem; color: var(--dim); margin-top: 3px; }
+
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.7rem; font-size: 0.72rem; }
+.bar-label { width: 140px; color: var(--muted); flex-shrink: 0; font-size: 0.7rem; }
+.bar-track { flex: 1; background: var(--parchment); border-radius: 3px; height: 7px; overflow: hidden; }
+.bar-fill  { height: 100%; border-radius: 3px; transition: width .5s ease; }
+.bar-val   { width: 80px; text-align: right; font-family: var(--ff-mono); font-size: 0.66rem; color: var(--cacao); flex-shrink: 0; }
+
+/* ── CHAT ── */
+.chat-wrap {
+  background: white; border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+}
+
+.chat-topbar {
+  background: var(--espresso);
+  padding: 0.85rem 1.1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+
+.chat-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid var(--glace);
+  object-fit: cover; flex-shrink: 0;
+}
+
+.chat-topbar-name { font-family: var(--ff-serif); font-size: 0.95rem; color: var(--cream); }
+.chat-topbar-sub  { font-size: 0.6rem; color: var(--caramel); font-family: var(--ff-mono); }
+
+.chat-messages {
+  height: 370px; overflow-y: auto;
+  padding: 1.1rem; display: flex;
+  flex-direction: column; gap: 0.85rem;
+  background: var(--cream);
+}
+
+.msg { display: flex; gap: 8px; align-items: flex-start; }
+.msg.user { flex-direction: row-reverse; }
+
+.msg-av {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--parchment); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; flex-shrink: 0; color: var(--muted);
+}
+
+.msg.user .msg-av {
+  background: var(--espresso); color: var(--caramel);
+  font-family: var(--ff-mono); font-size: 0.6rem;
+}
+
+.bubble {
+  background: white; border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.65rem 0.9rem;
+  font-size: 0.75rem; color: var(--muted); line-height: 1.65; max-width: 76%;
+}
+
+.msg.user .bubble {
+  background: var(--espresso); border-color: var(--cacao); color: var(--cream);
+}
+
+.bubble strong { color: var(--cacao); font-weight: 600; }
+.msg.user .bubble strong { color: var(--biscuit); }
+
+.source {
+  font-size: 0.6rem; color: var(--glace);
+  border-top: 1px solid var(--border); padding-top: 5px; margin-top: 6px;
+  font-family: var(--ff-mono);
+}
+
+.typing-row { display: flex; gap: 5px; align-items: center; padding: 6px 0; }
+.td { width: 6px; height: 6px; border-radius: 50%; background: var(--biscuit); animation: bounce 1.2s infinite; }
+.td:nth-child(2) { animation-delay: .2s; }
+.td:nth-child(3) { animation-delay: .4s; }
+@keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+.quick-row {
+  padding: 0.6rem 1rem 0.8rem;
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+  background: var(--parchment); border-top: 1px solid var(--border);
+}
+
+.quick-btn {
+  font-size: 0.65rem; padding: 0.3rem 0.75rem;
+  background: white; border: 1px solid var(--border);
+  border-radius: 15px; cursor: pointer; color: var(--muted);
+  transition: all .12s; font-family: var(--ff-sans);
+}
+
+.quick-btn:hover { border-color: var(--glace); color: var(--glace); background: var(--glace-lt); }
+
+.chat-input-row {
+  border-top: 1px solid var(--border); padding: 0.75rem 1rem;
+  display: flex; gap: 0.5rem; background: white;
+}
+
+.chat-input {
+  flex: 1; background: var(--parchment); border: 1px solid var(--border);
+  border-radius: 20px; padding: 0.45rem 1rem;
+  font-size: 0.75rem; color: var(--cacao); font-family: var(--ff-sans); outline: none;
+  transition: border-color .12s;
+}
+
+.chat-input:focus { border-color: var(--glace); }
+
+.send-btn {
+  background: var(--espresso); color: var(--cream); border: none;
+  border-radius: 20px; padding: 0.4rem 1.1rem;
+  font-size: 0.72rem; font-family: var(--ff-sans); cursor: pointer; font-weight: 500;
+  transition: opacity .12s;
+}
+.send-btn:hover { opacity: .82; }
+
+/* ── TABLE ── */
+table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+th {
+  text-align: left; padding: 0.4rem 0.7rem; color: var(--muted);
+  font-weight: 400; font-size: 0.58rem; letter-spacing: 0.12em;
+  text-transform: uppercase; border-bottom: 1px solid var(--border);
+  font-family: var(--ff-mono);
+}
+td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--parchment); color: var(--muted); }
+tr:last-child td { border: none; }
+td.hi    { color: var(--cacao); font-weight: 500; }
+td.pink  { color: var(--glace); font-family: var(--ff-mono); }
+td.green { color: var(--sage); }
+td.amber { color: var(--amber); }
+
+/* ── MISC ── */
+hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+h2 { font-family: var(--ff-serif); font-size: 1.05rem; font-weight: 400; color: var(--cacao); margin: 1.5rem 0 0.6rem; }
+h3 { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 1.2rem 0 0.5rem; font-family: var(--ff-mono); }
+p  { font-size: 0.82rem; color: var(--muted); line-height: 1.75; margin-bottom: .8rem; }
+strong { color: var(--cacao); font-weight: 600; }
+
+/* whatsapp mock */
+.wa-hint {
+  background: var(--sage-lt); border: 1px solid #a8c8a8;
+  border-radius: 6px; padding: 0.65rem 0.9rem;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.72rem; color: var(--sage); margin-bottom: 1rem;
+}
+
+/* timeline */
+.tl { position: relative; padding-left: 1.6rem; margin: 1rem 0; }
+.tl::before { content:''; position:absolute; left:5px; top:0; bottom:0; width:1px; background:var(--border); }
+.tl-item { position:relative; margin-bottom:1.4rem; }
+.tl-dot { position:absolute; left:-1.6rem; top:3px; width:10px; height:10px; border-radius:50%; background:var(--biscuit); border:2px solid var(--caramel); }
+.tl-tag  { font-size:0.58rem; letter-spacing:.15em; text-transform:uppercase; color:var(--caramel); margin-bottom:3px; font-family:var(--ff-mono); }
+.tl-title{ font-size:.82rem; color:var(--cacao); font-weight:600; margin-bottom:3px; }
+.tl-body { font-size:.74rem; color:var(--muted); line-height:1.6; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--biscuit); border-radius: 2px; }
+
+@media (max-width: 680px) {
+  .sidebar { width: 56px; min-width: 56px; }
+  .sidebar-brand .brand-name, .brand-sub, .brand-clareza, .brand-avatar,
+  .nav-section, .nav-item span:last-child { display: none; }
+  .nav-item { justify-content: center; padding: 0.6rem; }
+  .main { margin-left: 56px; }
+  .section { padding: 1.2rem 1rem; }
+  .kpi-row { grid-template-columns: repeat(2,1fr); }
+  .pipeline { grid-template-columns: repeat(2,1fr); }
+  .fin-grid { grid-template-columns: 1fr; }
+}
+
+/* ── INSTAGRAM SECTION ── */
+.ig-kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: .7rem; margin-bottom: 1.2rem; }
+
+.ig-post-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: .7rem; margin: .8rem 0 1.2rem; }
+
+.ig-post {
+  background: white; border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden; cursor: pointer;
+  transition: all .12s;
+}
+.ig-post:hover { box-shadow: 0 3px 12px rgba(61,42,24,.1); transform: translateY(-1px); }
+
+.ig-post-thumb {
+  height: 90px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; position: relative;
+}
+.ig-post-thumb.best { background: linear-gradient(135deg,#fdf0f5,#fae8d8); }
+.ig-post-thumb.mid  { background: linear-gradient(135deg,#f5f2ee,#ede8e0); }
+.ig-post-thumb.low  { background: linear-gradient(135deg,#f0f0f0,#e8e8e8); }
+
+.ig-best-badge {
+  position: absolute; top: 6px; right: 6px;
+  background: var(--glace); color: white;
+  font-size: 0.52rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 2px; font-family: var(--ff-mono);
+}
+
+.ig-post-body { padding: .6rem .7rem; }
+.ig-post-desc { font-size: .68rem; color: var(--cacao); font-weight: 500; margin-bottom: 4px; line-height: 1.3; }
+.ig-post-meta { font-size: .62rem; color: var(--muted); font-family: var(--ff-mono); }
+.ig-post-stats { display: flex; gap: 8px; margin-top: 5px; font-size: .6rem; color: var(--dim); font-family: var(--ff-mono); }
+.ig-stat { display: flex; align-items: center; gap: 3px; }
+.ig-stat.hi { color: var(--glace); }
+
+.audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: .8rem 0 1.2rem; }
+.aud-card { background: white; border: 1px solid var(--border); border-radius: 6px; padding: .9rem 1rem; }
+.aud-label { font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: var(--ff-mono); margin-bottom: .6rem; }
+.aud-row { display: flex; align-items: center; gap: 8px; margin-bottom: .55rem; font-size: .72rem; }
+.aud-name { width: 110px; color: var(--muted); flex-shrink: 0; font-size: .7rem; }
+.aud-bar-track { flex: 1; background: var(--parchment); border-radius: 2px; height: 6px; overflow: hidden; }
+.aud-bar-fill  { height: 100%; border-radius: 2px; background: var(--glace); }
+.aud-pct { width: 36px; text-align: right; font-family: var(--ff-mono); font-size: .66rem; color: var(--cacao); flex-shrink: 0; }
+
+.boost-table-wrap { background: white; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin: .8rem 0; }
+.boost-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; padding: .55rem .9rem; font-size: .72rem; border-bottom: 1px solid var(--parchment); align-items: center; }
+.boost-row:last-child { border: none; }
+.boost-row.head { background: var(--parchment); }
+.boost-row.head div { font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-family: var(--ff-mono); }
+.boost-tag { font-size: .58rem; padding: 2px 6px; border-radius: 2px; border: 1px solid; font-family: var(--ff-mono); display: inline-block; }
+.boost-tag.good { color: var(--sage); border-color: #a8c8a8; background: var(--sage-lt); }
+.boost-tag.ok   { color: var(--amber); border-color: #d4b060; background: var(--amber-lt); }
+.boost-tag.bad  { color: var(--glace); border-color: #e8a8b8; background: var(--glace-lt); }
+
+.post-sug { background: white; border: 1px solid var(--border); border-radius: 6px; padding: .9rem 1rem; margin-bottom: .7rem; display: flex; gap: 12px; align-items: flex-start; }
+.post-sug-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.post-sug-title { font-size: .78rem; color: var(--cacao); font-weight: 600; margin-bottom: 3px; }
+.post-sug-body  { font-size: .71rem; color: var(--muted); line-height: 1.55; }
+.post-sug-meta  { margin-top: 5px; display: flex; gap: 4px; flex-wrap: wrap; }
+
+.hora-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; margin: .8rem 0 1.4rem; }
+.hora-cell { border-radius: 3px; padding: 4px 2px; text-align: center; font-size: .58rem; font-family: var(--ff-mono); cursor: default; }
+.hora-cell .day  { color: var(--muted); font-size: .52rem; margin-bottom: 3px; }
+.hora-cell .heat { border-radius: 2px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .6rem; }
+.h0 { background: var(--parchment); color: var(--dim); }
+.h1 { background: #f5dde5; color: var(--glace); }
+.h2 { background: #eca8bc; color: white; }
+.h3 { background: var(--glace); color: white; font-weight: 600; }
+
+.ig-tab-row { display: flex; gap: 4px; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.ig-tab { font-size: .65rem; padding: .3rem .9rem; background: var(--parchment); border: 1px solid var(--border); border-radius: 20px; cursor: pointer; color: var(--muted); font-family: var(--ff-sans); transition: all .12s; }
+.ig-tab.on { background: var(--espresso); color: var(--cream); border-color: var(--espresso); }
+.ig-panel { display: none; }
+.ig-panel.on { display: block; }
+
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-clareza">Clareza <span class="brand-x">×</span></div>
+    <div class="brand-name"><em>Dolce Vita</em></div>
+    <div class="brand-sub">Biscoitos · Jundiaí–SP</div>
+    <img class="brand-avatar"
+      src="https://ugc.production.linktr.ee/de30904d-b264-4187-8ab4-8f11dcca6cab_IMG-2764.jpeg"
+      alt="Dolce Vita"
+      onerror="this.style.display='none'"/>
+  </div>
+  <nav class="nav">
+    <div class="nav-section">Hoje</div>
+    <div class="nav-item active" onclick="go('dashboard',this)">
+      <span class="nav-icon">🌸</span><span>Meu Dia</span><div class="nav-badge">4</div>
+    </div>
+    <div class="nav-item" onclick="go('pedidos',this)">
+      <span class="nav-icon">🍪</span><span>Pedidos</span><div class="nav-badge">9</div>
+    </div>
+
+    <div class="nav-section" style="margin-top:.5rem">Negócio</div>
+    <div class="nav-item" onclick="go('financeiro',this)">
+      <span class="nav-icon">💰</span><span>Financeiro</span>
+    </div>
+    <div class="nav-item" onclick="go('decisoes',this)">
+      <span class="nav-icon">⚖️</span><span>Decisões</span><div class="nav-badge">3</div>
+    </div>
+    <div class="nav-item" onclick="go('corporativo',this)">
+      <span class="nav-icon">🏢</span><span>B2B</span><div class="nav-badge" style="background:var(--caramel)">novo</div>
+    </div>
+
+    <div class="nav-section" style="margin-top:.5rem">Canal Digital</div>
+    <div class="nav-item" onclick="go('instagram',this)">
+      <span class="nav-icon">📱</span><span>Instagram</span><div class="nav-badge" style="background:var(--glace)">novo</div>
+    </div>
+
+    <div class="nav-section" style="margin-top:.5rem">Inteligência</div>
+    <div class="nav-item" onclick="go('chat',this)">
+      <span class="nav-icon">✨</span><span>Perguntar</span>
+    </div>
+  </nav>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-date">Segunda · 9 jun · Jundiaí-SP</div>
+    <div class="topbar-title">Boa semana, Bianca 🍪</div>
+  </div>
+  <div class="topbar-right">
+    <div class="status-dot"></div>
+    <div class="status-text">contexto atualizado</div>
+    <button class="whats-btn" onclick="alert('Abre WhatsApp Business da Bianca — 11 97888-9610')">
+      📲 WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DASHBOARD
+══════════════════════════════════════════ -->
+<section class="section active" id="dashboard">
+  <div class="eyebrow">Dolce Vita Biscoitos — semana 23</div>
+  <h1 class="page-h1">Bom dia, Bianca.<br><em>Aqui está o que importa hoje.</em></h1>
+
+  <div class="kpi-row">
+    <div class="kpi pink">
+      <div class="kpi-label">Pedidos em aberto</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-delta warn">⚠ 2 sem confirmação</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Receita confirmada</div>
+      <div class="kpi-value">R$ 2.140</div>
+      <div class="kpi-delta up">↑ 18% vs semana passada</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Entregas esta semana</div>
+      <div class="kpi-value">4</div>
+      <div class="kpi-delta warn">Próxima: 5ª feira</div>
+    </div>
+    <div class="kpi cacao">
+      <div class="kpi-label">Ingredientes em falta</div>
+      <div class="kpi-value">2</div>
+      <div class="kpi-delta down">Corante rosa · manteiga</div>
+    </div>
+  </div>
+
+  <!-- BRIEFING -->
+  <div class="briefing">
+    <div class="briefing-header">
+      <div>
+        <div class="briefing-title">Síntese da semana — Dolce Vita</div>
+        <div class="briefing-sub">Gerado com base nas conversas e histórico do ateliê</div>
+      </div>
+      <div class="ai-badge">Clareza IA</div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-icon">🔴</div>
+      <div class="insight-text">
+        <strong>Isabela Monteiro não confirmou o sinal do pedido de chá de bebê</strong> (kit 40 biscoitos glacê personalizado · R$ 380). Contato há 5 dias sem resposta. O evento é em 22/jun — sem confirmação hoje, a produção fica comprometida.
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">💼</div>
+      <div class="insight-text">
+        <strong>Primeiro pedido corporativo em andamento:</strong> Agência Plural pediu 80 biscoitos com logo para kit de boas-vindas de funcionários. Entrega sexta. Se der certo, potencial de recorrência mensal — vale caprichar na apresentação.
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text">
+        <strong>3 clientes perguntaram sobre "biscoito para presente" nas últimas 2 semanas</strong> sem saber o que pedir. Cada negociação durou mais de 30 min. Um kit presente padrão com preço fixo (ex: 12 biscoitos + caixinha kraft · R$ 95) eliminaria esse atrito e poderia vender direto pelo Instagram.
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">📦</div>
+      <div class="insight-text">
+        <strong>Corante rosa e manteiga extra-seca acabando.</strong> Com os pedidos de chá de bebê e casamento confirmados para esta semana, o estoque não cobre. Compra até terça evita atraso na produção.
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">⭐</div>
+      <div class="insight-text">
+        <strong>Larissa Alves marcou o perfil no story</strong> depois do pedido de casamento entregue na quinta — e 2 amigas responderam comentando. Nenhuma foi respondida ainda. Uma resposta rápida pode gerar 2 novos pedidos sem custo nenhum.
+      </div>
+    </div>
+  </div>
+
+  <h3>Decisões urgentes hoje</h3>
+  <div class="decision">
+    <div class="dec-bar urgent"></div>
+    <div>
+      <div class="dec-label">🔴 Urgente</div>
+      <div class="dec-title">Cobrar Isabela ou abrir a data para outro pedido?</div>
+      <div class="dec-body">5 dias sem sinal. Evento em 13 dias. Com base nos pedidos anteriores: clientes que demoram +5 dias para confirmar chá cancelam em 65% dos casos. A data já poderia estar ocupada com outro pedido.</div>
+      <div><span class="tag pink">R$ 380 em risco</span><span class="tag amber">13 dias para evento</span></div>
+    </div>
+  </div>
+  <div class="decision">
+    <div class="dec-bar mid"></div>
+    <div>
+      <div class="dec-label">⚠ Esta semana</div>
+      <div class="dec-title">Responder as amigas da Larissa no Instagram</div>
+      <div class="dec-body">2 perfis interessados no post do casamento. Demora de resposta reduz conversão em ~40%. Uma mensagem rápida no direct agora pode virar pedido ainda essa semana.</div>
+      <div><span class="tag green">5 min de trabalho</span><span class="tag pink">potencial R$ 400+</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PEDIDOS
+══════════════════════════════════════════ -->
+<section class="section" id="pedidos">
+  <div class="eyebrow">Gestão de pedidos</div>
+  <h1 class="page-h1">Pipeline de pedidos<br><em>da semana.</em></h1>
+  <p class="page-lead">Todos os pedidos organizados do primeiro contato até a entrega. Nenhum combinado no WhatsApp se perde mais.</p>
+
+  <div class="wa-hint">
+    📱 <strong>5 novas mensagens no WhatsApp</strong> desde ontem — 2 orçamentos, 1 confirmação de data, 2 dúvidas sobre biscoito corporativo.
+  </div>
+
+  <div class="pipeline">
+    <!-- coluna 1 -->
+    <div>
+      <div class="col-head">Interesse <span class="col-count">3</span></div>
+      <div class="order warn">
+        <div class="order-name">Isabela Monteiro</div>
+        <div class="order-desc">Kit chá de bebê · 40 biscoitos glacê personalizado</div>
+        <div class="order-meta">📅 22/jun · ⚠ sem sinal</div>
+        <div class="order-value">R$ 380</div>
+      </div>
+      <div class="order">
+        <div class="order-name">@camilasouza.jundiai</div>
+        <div class="order-desc">Biscoito para presente — sem definição ainda</div>
+        <div class="order-meta">📅 sem data · DM Instagram</div>
+        <div class="order-value">A definir</div>
+      </div>
+      <div class="order">
+        <div class="order-name">Empresa Nortex</div>
+        <div class="order-desc">Biscoitos corporativos — 50 unidades logo</div>
+        <div class="order-meta">📅 julho · orçamento</div>
+        <div class="order-value">~R$ 450</div>
+      </div>
+    </div>
+
+    <!-- coluna 2 -->
+    <div>
+      <div class="col-head">Confirmado <span class="col-count">3</span></div>
+      <div class="order ok">
+        <div class="order-name">Agência Plural 💼</div>
+        <div class="order-desc">80 biscoitos com logo · kit boas-vindas</div>
+        <div class="order-meta">📅 13/jun sex · sinal pago</div>
+        <div class="order-value">R$ 720</div>
+      </div>
+      <div class="order ok">
+        <div class="order-name">Família Carvalho</div>
+        <div class="order-desc">Biscoito casamento · 60 unid. glacê branco e dourado</div>
+        <div class="order-meta">📅 14/jun sáb · pago integral</div>
+        <div class="order-value">R$ 480</div>
+      </div>
+      <div class="order ok">
+        <div class="order-name">Renata Pires</div>
+        <div class="order-desc">Aniversário tema jardim · 30 biscoitos</div>
+        <div class="order-meta">📅 15/jun sáb · sinal pago</div>
+        <div class="order-value">R$ 240</div>
+      </div>
+    </div>
+
+    <!-- coluna 3 -->
+    <div>
+      <div class="col-head">Produção <span class="col-count">2</span></div>
+      <div class="order alert">
+        <div class="order-name">Agência Plural</div>
+        <div class="order-desc">Glacê logotipo · produção iniciada</div>
+        <div class="order-meta">📅 entrega sex · 🔴 em andamento</div>
+        <div class="order-value">R$ 720</div>
+      </div>
+      <div class="order warn">
+        <div class="order-name">Família Carvalho</div>
+        <div class="order-desc">Começa qua · glacê branco + detalhes dourados</div>
+        <div class="order-meta">📅 sáb · lembrar: comprar corante</div>
+        <div class="order-value">R$ 480</div>
+      </div>
+    </div>
+
+    <!-- coluna 4 -->
+    <div>
+      <div class="col-head">Entregue <span class="col-count">3</span></div>
+      <div class="order done">
+        <div class="order-name">Larissa Alves ⭐⭐⭐⭐⭐</div>
+        <div class="order-desc">Biscoito casamento · marcou perfil no story</div>
+        <div class="order-meta">📅 06/jun · pago</div>
+        <div class="order-value">R$ 320</div>
+      </div>
+      <div class="order done">
+        <div class="order-name">Fernanda Lima</div>
+        <div class="order-desc">Chá revelação · 35 biscoitos azul e rosa</div>
+        <div class="order-meta">📅 04/jun · pago</div>
+        <div class="order-value">R$ 280</div>
+      </div>
+      <div class="order done">
+        <div class="order-name">Escola Mundo Feliz</div>
+        <div class="order-desc">Formatura infantil · 50 biscoitos tema escola</div>
+        <div class="order-meta">📅 01/jun · pago</div>
+        <div class="order-value">R$ 350</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FINANCEIRO
+══════════════════════════════════════════ -->
+<section class="section" id="financeiro">
+  <div class="eyebrow">Financeiro</div>
+  <h1 class="page-h1">O que o Dolce Vita<br><em>está gerando de verdade.</em></h1>
+  <p class="page-lead">Pela primeira vez, você vê quanto cada tipo de biscoito realmente rende — e onde está a margem que ninguém te contou.</p>
+
+  <div class="fin-grid">
+    <div class="fin-card">
+      <div class="fin-label">Receita junho — projetada</div>
+      <div class="fin-value pink">R$ 5.420</div>
+      <div class="fin-sub">Pedidos confirmados + pipeline quente</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-label">Custo ingredientes estimado</div>
+      <div class="fin-value" style="color:var(--amber)">R$ 1.300</div>
+      <div class="fin-sub">~24% da receita · ótimo para o setor</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-label">Margem bruta estimada</div>
+      <div class="fin-value green">R$ 4.120</div>
+      <div class="fin-sub">76% — acima da média (55–65%)</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-label">Ticket médio — últimos 30 dias</div>
+      <div class="fin-value pink">R$ 338</div>
+      <div class="fin-sub">↑ R$ 62 vs maio — pedidos maiores</div>
+    </div>
+  </div>
+
+  <h2>Receita por tipo de pedido</h2>
+  <div style="margin:.8rem 0 1.5rem">
+    <div class="bar-row">
+      <div class="bar-label">Festas & eventos</div>
+      <div class="bar-track"><div class="bar-fill" style="width:58%;background:var(--glace)"></div></div>
+      <div class="bar-val">R$ 2.640 · 49%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Chá (bebê/revelação)</div>
+      <div class="bar-track"><div class="bar-fill" style="width:28%;background:var(--caramel)"></div></div>
+      <div class="bar-val">R$ 1.280 · 24%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Corporativo 💼</div>
+      <div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--cacao)"></div></div>
+      <div class="bar-val">R$ 720 · 13%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Presente / avulso</div>
+      <div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--biscuit)"></div></div>
+      <div class="bar-val">R$ 380 · 7%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Casamentos</div>
+      <div class="bar-track"><div class="bar-fill" style="width:6%;background:var(--sage)"></div></div>
+      <div class="bar-val">R$ 400 · 7%</div>
+    </div>
+  </div>
+
+  <h2>O que a Clareza identificou</h2>
+  <table>
+    <thead><tr><th>Insight</th><th>Impacto</th><th>O que fazer</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="hi">Pedidos corporativos têm ticket 2,5× maior que PF</td>
+        <td class="green">Alto</td>
+        <td>Criar proposta B2B com preço tabela</td>
+      </tr>
+      <tr>
+        <td class="hi">Biscoito casamento tem maior margem (82%) de todos</td>
+        <td class="green">Alto</td>
+        <td>Divulgar mais no Instagram</td>
+      </tr>
+      <tr>
+        <td class="hi">3 pedidos de "presente" por mês sem produto padrão</td>
+        <td class="amber">Médio</td>
+        <td>Criar kit presente com preço fixo</td>
+      </tr>
+      <tr>
+        <td class="hi">68% das entregas concentradas no sábado</td>
+        <td class="amber">Médio</td>
+        <td>Taxa urgência ou distribuir entregas</td>
+      </tr>
+      <tr>
+        <td class="hi">Você começou há 2 anos — o ticket médio subiu 34%</td>
+        <td class="green">Positivo</td>
+        <td>Seguir no mesmo caminho ✓</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DECISÕES
+══════════════════════════════════════════ -->
+<section class="section" id="decisoes">
+  <div class="eyebrow">Clareza para decidir</div>
+  <h1 class="page-h1">O que precisa de<br><em>uma decisão sua</em> agora.</h1>
+  <p class="page-lead">A Clareza identificou esses pontos abertos no histórico do ateliê. Cada um já tem o contexto estruturado para você decidir com mais segurança — e menos cabeça.</p>
+
+  <div class="decision">
+    <div class="dec-bar urgent"></div>
+    <div style="flex:1">
+      <div class="dec-label">🔴 Urgente — hoje</div>
+      <div class="dec-title">Cobrar Isabela ou liberar a data para outro pedido?</div>
+      <div class="dec-body">5 dias sem sinal. Evento em 13 dias. Análise do histórico: pedidos de chá com esse prazo têm alta taxa de cancelamento tardio. Manter a data bloqueada sem confirmação significa risco de não ter nem a receita da Isabela nem outro pedido no lugar.</div>
+      <div><span class="tag pink">R$ 380</span><span class="tag amber">13 dias para evento</span><span class="tag gray">2 pedidos na fila esperando data</span></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="dec-bar mid"></div>
+    <div style="flex:1">
+      <div class="dec-label">⚠ Esta semana</div>
+      <div class="dec-title">Criar um kit presente padrão?</div>
+      <div class="dec-body">3 clientes nos últimos 30 dias pediram "algo para presente" mas sem ideia de valor ou formato. Cada conversa durou 30+ minutos. Um kit fixo (12 biscoitos + caixinha + fita · R$ 95) eliminaria a negociação, venderia direto no feed e ainda teria margem de ~72%.</div>
+      <div><span class="tag green">Potencial R$ 380+/mês</span><span class="tag gray">3 pedidos similares recentes</span></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="dec-bar low"></div>
+    <div style="flex:1">
+      <div class="dec-label">💡 Oportunidade — sem urgência</div>
+      <div class="dec-title">Responder a Empresa Nortex sobre o pedido B2B de julho</div>
+      <div class="dec-body">Primeira empresa local fora da Agência Plural a entrar em contato espontaneamente. Pedidos corporativos têm ticket 2,5× maior e potencial de recorrência. Uma proposta bem apresentada (tabela de preços, mínimo por pedido, prazo) pode transformar em cliente fixo antes do fim do mês.</div>
+      <div><span class="tag green">Ticket estimado R$ 450</span><span class="tag pink">potencial recorrente</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     B2B / CORPORATIVO
+══════════════════════════════════════════ -->
+<section class="section" id="corporativo">
+  <div class="eyebrow">Oportunidade de crescimento</div>
+  <h1 class="page-h1">O mercado corporativo<br><em>ainda não te descobriu.</em></h1>
+  <p class="page-lead">Você já fez seu primeiro pedido B2B. O ticket foi 2,5× maior, sem a negociação longa de pedidos de festa. Esse canal pode mudar a lógica do ateliê.</p>
+
+  <div class="fin-grid">
+    <div class="fin-card">
+      <div class="fin-label">Ticket médio PF (festas)</div>
+      <div class="fin-value" style="color:var(--muted)">R$ 280</div>
+      <div class="fin-sub">Base atual do ateliê</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-label">Ticket médio PJ (corporativo)</div>
+      <div class="fin-value pink">R$ 680</div>
+      <div class="fin-sub">2,5× maior · mesma produção</div>
+    </div>
+  </div>
+
+  <h2>Quem contrata biscoito corporativo em Jundiaí</h2>
+  <table>
+    <thead><tr><th>Perfil</th><th>Ocasião</th><th>Ticket estimado</th><th>Frequência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="hi">Agências e empresas de marketing</td>
+        <td>Kit cliente, lançamento, branding</td>
+        <td class="pink">R$ 600–1.200</td>
+        <td class="green">Mensal</td>
+      </tr>
+      <tr>
+        <td class="hi">RH de empresas médias</td>
+        <td>Boas-vindas, aniversário empresa</td>
+        <td class="pink">R$ 400–800</td>
+        <td class="amber">Trimestral</td>
+      </tr>
+      <tr>
+        <td class="hi">Imobiliárias e corretores</td>
+        <td>Entrega de chave, kit cliente</td>
+        <td class="pink">R$ 300–600</td>
+        <td class="amber">Variável</td>
+      </tr>
+      <tr>
+        <td class="hi">Clínicas e consultórios</td>
+        <td>Presente paciente, datas especiais</td>
+        <td class="pink">R$ 200–400</td>
+        <td class="green">Mensal</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>O que montar para prospectar</h2>
+  <div class="tl">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">Passo 1</div>
+      <div class="tl-title">Tabela de preços B2B — 1 página</div>
+      <div class="tl-body">Mínimo de 30 unidades, 3 faixas de preço (30, 60, 100+), prazo de 7 dias úteis, personalização incluída a partir de X. Isso elimina a negociação e passa credibilidade.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">Passo 2</div>
+      <div class="tl-title">Foto do pedido da Agência Plural como case</div>
+      <div class="tl-body">Uma boa foto do kit com logo é o melhor argumento de venda para outras empresas. Post no feed com tag da agência (com permissão) abre canal direto para indicações B2B.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">Passo 3</div>
+      <div class="tl-title">5 empresas para abordar em Jundiaí</div>
+      <div class="tl-body">Agências de marketing, imobiliárias e clínicas são os perfis com maior ciclo de compra recorrente. Um direct no LinkedIn ou Instagram da empresa com a foto do kit já é suficiente para começar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CHAT
+══════════════════════════════════════════ -->
+<section class="section" id="chat">
+  <div class="eyebrow">Inteligência do ateliê</div>
+  <h1 class="page-h1">Pergunte sobre<br><em>o Dolce Vita.</em></h1>
+  <p class="page-lead">A Clareza conhece o histórico de pedidos, clientes, sazonalidade e padrões do ateliê. Pergunte como se estivesse conversando com alguém que viu tudo acontecer desde novembro de 2023.</p>
+
+  <div class="chat-wrap">
+    <div class="chat-topbar">
+      <img class="chat-avatar"
+        src="https://ugc.production.linktr.ee/de30904d-b264-4187-8ab4-8f11dcca6cab_IMG-2764.jpeg"
+        alt="DV" onerror="this.style.background='#3d2a18'"/>
+      <div>
+        <div class="chat-topbar-name">Clareza × Dolce Vita</div>
+        <div class="chat-topbar-sub">Jundiaí · SP · ativo desde nov/2023 · 2 anos de contexto</div>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chat-msgs">
+      <div class="msg">
+        <div class="msg-av">🍪</div>
+        <div class="bubble">
+          Oi, Bianca! Tenho acesso ao histórico completo do Dolce Vita — pedidos, clientes, sazonalidade e padrões dos últimos 2 anos em Jundiaí. O que você quer entender hoje?
+        </div>
+      </div>
+      <div class="msg user">
+        <div class="msg-av">B</div>
+        <div class="bubble">Qual meu produto mais lucrativo?</div>
+      </div>
+      <div class="msg">
+        <div class="msg-av">🍪</div>
+        <div class="bubble">
+          Pelos pedidos dos últimos 6 meses, <strong>biscoito para casamento tem a maior margem do ateliê: ~82%</strong>.<br><br>
+          O motivo: o valor percebido é altíssimo (lembrança da festa mais importante da vida), o preço unitário sobe, mas o custo de ingredientes por biscoito é praticamente igual aos de festa.<br><br>
+          Em segundo lugar: <strong>pedidos corporativos (76% de margem)</strong> — e esses têm potencial de recorrência que os de casamento não têm.<br><br>
+          O menos lucrativo em horas trabalhadas: biscoito avulso de presente, porque o tempo de negociação não está no preço.
+          <div class="source">📎 Histórico: 34 pedidos analisados · Dolce Vita · nov/2023–jun/2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-row">
+      <button class="quick-btn" onclick="qask('Quando é minha melhor época do ano?')">📅 Melhor época do ano?</button>
+      <button class="quick-btn" onclick="qask('Por que perco clientes depois do primeiro pedido?')">😕 Perco clientes?</button>
+      <button class="quick-btn" onclick="qask('Quanto cobrar por 60 biscoitos de casamento?')">💰 Quanto cobrar?</button>
+      <button class="quick-btn" onclick="qask('Estou trabalhando muito para o que ganho?')">⏱ Ganho o suficiente?</button>
+      <button class="quick-btn" onclick="qask('Como crescer sem trabalhar mais horas?')">📈 Como crescer?</button>
+    </div>
+
+    <div class="chat-input-row">
+      <input class="chat-input" id="ci" type="text"
+        placeholder="Pergunte sobre pedidos, preços, clientes, produção..."
+        onkeydown="if(event.key==='Enter')send()"/>
+      <button class="send-btn" onclick="send()">Enviar →</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     INSTAGRAM / CANAL DIGITAL
+══════════════════════════════════════════ -->
+<section class="section" id="instagram">
+  <div class="eyebrow">Canal digital</div>
+  <h1 class="page-h1">Instagram<br><em>Dolce Vita Biscoitos.</em></h1>
+  <p class="page-lead">Métricas do perfil, análise de posts, público-alvo e controle de posts turbinados — tudo em um lugar, sem precisar ficar abrindo o Instagram Insights toda hora.</p>
+
+  <!-- tabs -->
+  <div class="ig-tab-row">
+    <div class="ig-tab on" onclick="igTab(this,'ig-visao')">Visão Geral</div>
+    <div class="ig-tab" onclick="igTab(this,'ig-posts')">Posts</div>
+    <div class="ig-tab" onclick="igTab(this,'ig-audiencia')">Audiência</div>
+    <div class="ig-tab" onclick="igTab(this,'ig-turbinado')">Impulsionado</div>
+    <div class="ig-tab" onclick="igTab(this,'ig-sugestoes')">O que postar</div>
+  </div>
+
+  <!-- ─── VISÃO GERAL ─── -->
+  <div class="ig-panel on" id="ig-visao">
+    <div class="ig-kpi-row">
+      <div class="kpi pink">
+        <div class="kpi-label">Seguidores</div>
+        <div class="kpi-value">1.847</div>
+        <div class="kpi-delta up">↑ 94 este mês</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Alcance semanal</div>
+        <div class="kpi-value">3.240</div>
+        <div class="kpi-delta up">↑ 18% vs sem. ant.</div>
+      </div>
+      <div class="kpi amber">
+        <div class="kpi-label">Taxa de engajamento</div>
+        <div class="kpi-value">4,8%</div>
+        <div class="kpi-delta up">Acima da média (3%)</div>
+      </div>
+      <div class="kpi cacao">
+        <div class="kpi-label">Pedidos via Instagram</div>
+        <div class="kpi-value">6</div>
+        <div class="kpi-delta up">67% dos pedidos da semana</div>
+      </div>
+    </div>
+
+    <div class="briefing">
+      <div class="briefing-header">
+        <div>
+          <div class="briefing-title">Análise do canal — última semana</div>
+          <div class="briefing-sub">Comparando posts orgânicos, turbinados e conversões em pedidos</div>
+        </div>
+        <div class="ai-badge">Clareza IA</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📈</div>
+        <div class="insight-text"><strong>O Reels do biscoito de casamento dourado gerou 3× mais alcance</strong> que os posts estáticos da semana — 2.100 visualizações e 2 pedidos diretos no direct. Vídeos curtos com close no glacê têm desempenho muito acima da média no seu perfil.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">💰</div>
+        <div class="insight-text"><strong>Post turbinado de terça (R$ 15) trouxe 4 novos seguidores e 0 pedidos.</strong> O público configurado era muito amplo (mulheres 18–45, SP). Público mais restrito (Jundiaí + cidades vizinhas, eventos sociais) tende a converter 3× melhor para confeitaria local.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🕐</div>
+        <div class="insight-text"><strong>Seus melhores horários em Jundiaí: sexta 19h–21h e domingo 10h–12h.</strong> Posts nessas janelas têm engajamento 2,4× maior. Você postou 3× fora dessas janelas esta semana.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">💬</div>
+        <div class="insight-text"><strong>Larissa marcou 2 amigas nos comentários</strong> do post de casamento — nenhuma foi respondida ainda. Responder comentários nas primeiras 2h aumenta o alcance orgânico em até 30% pelo algoritmo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── POSTS ─── -->
+  <div class="ig-panel" id="ig-posts">
+    <h3>Posts dos últimos 30 dias — por desempenho</h3>
+    <div class="ig-post-grid">
+
+      <div class="ig-post">
+        <div class="ig-post-thumb best">🎂
+          <div class="ig-best-badge">Top</div>
+        </div>
+        <div class="ig-post-body">
+          <div class="ig-post-desc">Biscoito casamento dourado — close no glacê</div>
+          <div class="ig-post-meta">Reels · 06/jun · orgânico</div>
+          <div class="ig-post-stats">
+            <div class="ig-stat hi">👁 2.100</div>
+            <div class="ig-stat hi">❤️ 187</div>
+            <div class="ig-stat">💬 14</div>
+            <div class="ig-stat hi">🛍 2 pedidos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ig-post">
+        <div class="ig-post-thumb best">🌸</div>
+        <div class="ig-post-body">
+          <div class="ig-post-desc">Kit chá de bebê rosa e branco — mesa completa</div>
+          <div class="ig-post-meta">Carrossel · 02/jun · orgânico</div>
+          <div class="ig-post-stats">
+            <div class="ig-stat hi">👁 1.480</div>
+            <div class="ig-stat hi">❤️ 134</div>
+            <div class="ig-stat">💬 21</div>
+            <div class="ig-stat hi">🛍 1 pedido</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ig-post">
+        <div class="ig-post-thumb mid">🏢</div>
+        <div class="ig-post-body">
+          <div class="ig-post-desc">Biscoito corporativo com logo — Agência Plural</div>
+          <div class="ig-post-meta">Foto · 04/jun · orgânico</div>
+          <div class="ig-post-stats">
+            <div class="ig-stat">👁 980</div>
+            <div class="ig-stat">❤️ 76</div>
+            <div class="ig-stat">💬 8</div>
+            <div class="ig-stat hi">🛍 1 consulta B2B</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ig-post">
+        <div class="ig-post-thumb mid">🎀</div>
+        <div class="ig-post-body">
+          <div class="ig-post-desc">Biscoito aniversário tema borboleta</div>
+          <div class="ig-post-meta">Foto · 29/mai · turbinado R$15</div>
+          <div class="ig-post-stats">
+            <div class="ig-stat">👁 1.200</div>
+            <div class="ig-stat">❤️ 54</div>
+            <div class="ig-stat">💬 3</div>
+            <div class="ig-stat" style="color:var(--amber)">🛍 0 pedidos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ig-post">
+        <div class="ig-post-thumb low">🍪</div>
+        <div class="ig-post-body">
+          <div class="ig-post-desc">Processo: decorando com glacê real</div>
+          <div class="ig-post-meta">Reels · 27/mai · orgânico</div>
+          <div class="ig-post-stats">
+            <div class="ig-stat">👁 640</div>
+            <div class="ig-stat">❤️ 89</div>
+            <div class="ig-stat">💬 6</div>
+            <div class="ig-stat">🛍 0 pedidos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ig-post">
+        <div class="ig-post-thumb low">✨</div>
+        <div class="ig-post-body">
+          <div class="ig-post-desc">Legenda: "aceito encomendas para julho"</div>
+          <div class="ig-post-meta">Story · 25/mai · orgânico</div>
+          <div class="ig-post-stats">
+            <div class="ig-stat">👁 420</div>
+            <div class="ig-stat">❤️ 31</div>
+            <div class="ig-stat">💬 1</div>
+            <div class="ig-stat hi">🛍 3 directs</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="briefing" style="margin-top:.5rem">
+      <div class="briefing-header">
+        <div class="briefing-title">O que os dados dos posts dizem</div>
+        <div class="ai-badge">Clareza IA</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🎬</div>
+        <div class="insight-text"><strong>Reels com close no produto convertem 4× mais que fotos estáticas</strong> em pedidos diretos. O biscoito de casamento prova isso: 2.100 visualizações, 2 pedidos, nenhum real gasto em impulsionamento.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📌</div>
+        <div class="insight-text"><strong>Stories com CTA explícito ("aceito encomendas") geram mais directs</strong> do que posts de produto no feed. 3 directs do story vs 0 de um post estático turbinado. Vale usar stories toda semana com chamada direta.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🏢</div>
+        <div class="insight-text"><strong>O post corporativo gerou uma consulta B2B mesmo sem impulsionamento.</strong> Empresas estão te procurando organicamente — um post por semana sobre biscoito corporativo pode multiplicar esse canal sem custo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── AUDIÊNCIA ─── -->
+  <div class="ig-panel" id="ig-audiencia">
+    <div class="audience-grid">
+      <div class="aud-card">
+        <div class="aud-label">Faixa etária das seguidoras</div>
+        <div class="aud-row"><div class="aud-name">18–24 anos</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:22%"></div></div><div class="aud-pct">22%</div></div>
+        <div class="aud-row"><div class="aud-name">25–34 anos</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:41%"></div></div><div class="aud-pct">41%</div></div>
+        <div class="aud-row"><div class="aud-name">35–44 anos</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:24%"></div></div><div class="aud-pct">24%</div></div>
+        <div class="aud-row"><div class="aud-name">45–54 anos</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:9%"></div></div><div class="aud-pct">9%</div></div>
+        <div class="aud-row"><div class="aud-name">55+</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:4%"></div></div><div class="aud-pct">4%</div></div>
+      </div>
+
+      <div class="aud-card">
+        <div class="aud-label">Cidades de origem</div>
+        <div class="aud-row"><div class="aud-name">Jundiaí</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:58%"></div></div><div class="aud-pct">58%</div></div>
+        <div class="aud-row"><div class="aud-name">Itupeva</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:12%"></div></div><div class="aud-pct">12%</div></div>
+        <div class="aud-row"><div class="aud-name">Várzea Paulista</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:9%"></div></div><div class="aud-pct">9%</div></div>
+        <div class="aud-row"><div class="aud-name">Campo Limpo P.</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:7%"></div></div><div class="aud-pct">7%</div></div>
+        <div class="aud-row"><div class="aud-name">Outras</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:14%"></div></div><div class="aud-pct">14%</div></div>
+      </div>
+
+      <div class="aud-card">
+        <div class="aud-label">Gênero</div>
+        <div class="aud-row"><div class="aud-name">Mulheres</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:87%"></div></div><div class="aud-pct">87%</div></div>
+        <div class="aud-row"><div class="aud-name">Homens</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:11%;background:var(--caramel)"></div></div><div class="aud-pct">11%</div></div>
+        <div class="aud-row"><div class="aud-name">Outros</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:2%;background:var(--biscuit)"></div></div><div class="aud-pct">2%</div></div>
+      </div>
+
+      <div class="aud-card">
+        <div class="aud-label">Momentos de vida — estimado</div>
+        <div class="aud-row"><div class="aud-name">Mães (0–5 anos)</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:34%"></div></div><div class="aud-pct">34%</div></div>
+        <div class="aud-row"><div class="aud-name">Noivas / casando</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:18%"></div></div><div class="aud-pct">18%</div></div>
+        <div class="aud-row"><div class="aud-name">Organizadoras festa</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:27%"></div></div><div class="aud-pct">27%</div></div>
+        <div class="aud-row"><div class="aud-name">Empresas / RH</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:8%"></div></div><div class="aud-pct">8%</div></div>
+        <div class="aud-row"><div class="aud-name">Curiosas / inativas</div><div class="aud-bar-track"><div class="aud-bar-fill" style="width:13%;background:var(--biscuit)"></div></div><div class="aud-pct">13%</div></div>
+      </div>
+    </div>
+
+    <div class="briefing">
+      <div class="briefing-header">
+        <div class="briefing-title">O que a audiência revela</div>
+        <div class="ai-badge">Clareza IA</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">👩</div>
+        <div class="insight-text"><strong>Seu público principal é mulher de 25–34 anos em Jundiaí</strong> — provavelmente mãe jovem ou organizando evento. Esse perfil decide rápido, compara pelo visual e precisa de prazo claro. Comunicação direta, foto bonita e "aceita encomendas para [data]" funciona muito bem.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📍</div>
+        <div class="insight-text"><strong>42% da audiência está fora de Jundiaí</strong> (Itupeva, Várzea, Campo Limpo). Essas cidades ficam a 15–30 min. Você nunca mencionou entrega ou retirada nessas cidades — um post simples sobre isso pode abrir um mercado que já te segue.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🏢</div>
+        <div class="insight-text"><strong>8% da audiência tem perfil de empresa/RH</strong> — mas você nunca postou direcionado a eles. Um post mensal estilo "presente corporativo personalizado" com preço tabela pode converter esse segmento que já te conhece.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TURBINADO ─── -->
+  <div class="ig-panel" id="ig-turbinado">
+    <h3>Controle de posts impulsionados</h3>
+
+    <div class="boost-table-wrap">
+      <div class="boost-row head">
+        <div>Post</div><div>Investido</div><div>Alcance</div><div>Pedidos</div><div>CPO</div>
+      </div>
+      <div class="boost-row">
+        <div style="font-size:.72rem;color:var(--cacao);font-weight:500">Biscoito borboleta · 29/mai</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">R$ 15</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">1.200</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem;color:var(--glace)">0</div>
+        <div><span class="boost-tag bad">∞ ruim</span></div>
+      </div>
+      <div class="boost-row">
+        <div style="font-size:.72rem;color:var(--cacao);font-weight:500">Kit chá revelação · 15/mai</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">R$ 20</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">1.840</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem;color:var(--sage)">1</div>
+        <div><span class="boost-tag ok">R$ 20</span></div>
+      </div>
+      <div class="boost-row">
+        <div style="font-size:.72rem;color:var(--cacao);font-weight:500">Biscoito casamento · 02/mai</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">R$ 30</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">2.600</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem;color:var(--sage)">2</div>
+        <div><span class="boost-tag good">R$ 15</span></div>
+      </div>
+      <div class="boost-row">
+        <div style="font-size:.72rem;color:var(--cacao);font-weight:500">Aniversário jardim · 18/abr</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">R$ 15</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem">990</div>
+        <div style="font-family:var(--ff-mono);font-size:.72rem;color:var(--sage)">1</div>
+        <div><span class="boost-tag good">R$ 15</span></div>
+      </div>
+    </div>
+
+    <div class="fin-grid" style="margin-top:1rem">
+      <div class="fin-card">
+        <div class="fin-label">Total investido em impulsionamento</div>
+        <div class="fin-value pink">R$ 80</div>
+        <div class="fin-sub">Últimos 60 dias · 4 posts</div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-label">Pedidos gerados por impulsionamento</div>
+        <div class="fin-value green">4</div>
+        <div class="fin-sub">CPO médio: R$ 20 por pedido</div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-label">Receita gerada</div>
+        <div class="fin-value green">R$ 1.120</div>
+        <div class="fin-sub">Retorno: R$ 14 para cada R$ 1 investido</div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-label">Melhor público para impulsionar</div>
+        <div class="fin-value" style="font-size:.9rem;color:var(--cacao)">Jundiaí + 20km</div>
+        <div class="fin-sub">Mulheres 24–40 · casamento ou bebê</div>
+      </div>
+    </div>
+
+    <div class="briefing" style="margin-top:.5rem">
+      <div class="briefing-header">
+        <div class="briefing-title">Como turbinar melhor</div>
+        <div class="ai-badge">Clareza IA</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🎯</div>
+        <div class="insight-text"><strong>O problema do post de borboleta não foi o criativo — foi o público.</strong> Configurado para "mulheres 18–45, SP" é amplo demais. Para confeitaria local, o público "Jundiaí + 20km, mulheres 24–40, interesse em casamento ou bebê" reduz custo e aumenta conversão.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">💡</div>
+        <div class="insight-text"><strong>Turbine o que já performou bem organicamente.</strong> O Reels do casamento dourado teve 2.100 views sem custo. Impulsionar esse mesmo post com R$ 20 e público correto pode trazer mais 3–4 pedidos. Nunca turbine post que já não engajou organicamente.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📅</div>
+        <div class="insight-text"><strong>Melhor janela para impulsionar em Jundiaí: quinta a sábado.</strong> Pessoas planejam eventos no fim de semana e buscam fornecedores na quinta e sexta. Post turbinado na quarta-feira com entrega de sábado tem CPO historicamente menor.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── O QUE POSTAR ─── -->
+  <div class="ig-panel" id="ig-sugestoes">
+    <h3>Melhor horário para postar — Jundiaí</h3>
+    <div class="hora-grid">
+      <div class="hora-cell"><div class="day">SEG</div><div class="heat h0">manhã</div></div>
+      <div class="hora-cell"><div class="day">TER</div><div class="heat h1">manhã</div></div>
+      <div class="hora-cell"><div class="day">QUA</div><div class="heat h1">tarde</div></div>
+      <div class="hora-cell"><div class="day">QUI</div><div class="heat h2">19h</div></div>
+      <div class="hora-cell"><div class="day">SEX</div><div class="heat h3">20h ★</div></div>
+      <div class="hora-cell"><div class="day">SÁB</div><div class="heat h1">tarde</div></div>
+      <div class="hora-cell"><div class="day">DOM</div><div class="heat h3">11h ★</div></div>
+    </div>
+
+    <h3>Sugestões para esta semana</h3>
+
+    <div class="post-sug">
+      <div class="post-sug-icon">📸</div>
+      <div>
+        <div class="post-sug-title">Reels: close no glacê do pedido corporativo da Agência Plural</div>
+        <div class="post-sug-body">Mostrar o logo sendo desenhado com glacê é o tipo de conteúdo que empresas compartilham internamente — e gera consultas B2B espontâneas. Caption sugerida: "Biscoito com a sua marca. Perfeito para presentear clientes, equipe e eventos. Link na bio para orçamento."</div>
+        <div class="post-sug-meta">
+          <span class="tag pink">Sexta 20h</span>
+          <span class="tag green">Orgânico</span>
+          <span class="tag amber">Pode turbinar R$ 20</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-sug">
+      <div class="post-sug-icon">🌸</div>
+      <div>
+        <div class="post-sug-title">Story: "Agenda de julho — ainda aceito pedidos para estas datas"</div>
+        <div class="post-sug-body">Stories com datas disponíveis geram directs de pessoas que já queriam encomendar mas não sabiam se havia vaga. Um calendário simples com datas abertas e fechadas converte muito. Faça na quarta ou quinta, quando as pessoas planejam o fim de semana.</div>
+        <div class="post-sug-meta">
+          <span class="tag pink">Quarta 19h</span>
+          <span class="tag green">Orgânico · Story</span>
+          <span class="tag gray">CTA: "manda direct"</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-sug">
+      <div class="post-sug-icon">🎂</div>
+      <div>
+        <div class="post-sug-title">Carrossel: "3 formas de usar biscoito decorado na sua festa"</div>
+        <div class="post-sug-body">Slide 1: mesa de casamento. Slide 2: lembrancinhas de chá. Slide 3: kit presente. Esse formato educativo aumenta o tempo que as pessoas ficam no post — o que o algoritmo do Instagram favorece muito. Não precisa ser perfeito, pode ser feito no Canva em 20 min.</div>
+        <div class="post-sug-meta">
+          <span class="tag pink">Domingo 11h</span>
+          <span class="tag green">Orgânico · Feed</span>
+          <span class="tag amber">Alto potencial de compartilhamento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-sug">
+      <div class="post-sug-icon">💌</div>
+      <div>
+        <div class="post-sug-title">Post: lançamento do kit presente padrão (se criar)</div>
+        <div class="post-sug-body">Se você criar o kit presente com preço fixo (R$ 95 · 12 biscoitos + caixinha), o post de lançamento tem tudo para viralizar localmente. Foto com a caixinha aberta, preço visível no caption, link direto pro WhatsApp. Turbinar esse post com R$ 25 em Jundiaí pode pagar o investimento na mesma semana.</div>
+        <div class="post-sug-meta">
+          <span class="tag pink">Quando lançar</span>
+          <span class="tag amber">Turbinar R$ 25</span>
+          <span class="tag green">Alta conversão esperada</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+</div>
+
+<script>
+function go(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (el) el.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+const RS = {
+  'Quando é minha melhor época do ano?':
+    `Pelo histórico do Dolce Vita em Jundiaí, <strong>outubro a dezembro são seus meses de ouro</strong> — formaturas, festas de fim de ano e casamentos de verão concentram quase 40% da receita anual.<br><br>Julho tem um pico menor de chás de bebê. Fevereiro e agosto costumam ser os mais fracos.<br><br><strong>O que fazer agora:</strong> junho ainda está bom. Mas julho vale usar para criar o kit presente padrão e prospectar empresas para os kits de fim de ano corporativos — que precisam ser fechados em setembro.<div class="source">📎 Sazonalidade estimada · setor de confeitaria artesanal · Jundiaí-SP</div>`,
+
+  'Por que perco clientes depois do primeiro pedido?':
+    `Identifiquei <strong>6 clientes que compraram uma vez e não voltaram nos últimos 90 dias</strong>. O padrão mais comum: compraram para um evento específico (chá, aniversário) e não perceberam que você tem outras ocasiões.<br><br>O biscoito virou "lembrar para a próxima festa" — mas ninguém lembra. Uma mensagem simples 45–60 dias depois ("oi, tudo bem? Junho chegou com novidades no ateliê ✨") tem taxa de retorno de ~35% em artesanatos.<div class="source">📎 Histórico de clientes · análise de recorrência · Dolce Vita</div>`,
+
+  'Quanto cobrar por 60 biscoitos de casamento?':
+    `Com base nos seus pedidos anteriores e no posicionamento do Dolce Vita em Jundiaí: <strong>60 biscoitos de casamento → faixa de R$ 480 a R$ 620</strong>, dependendo da complexidade do glacê.<br><br>Seus pedidos recentes nesse formato ficaram em torno de R$ 520 com decoração elaborada. Custo de ingredientes estimado: R$ 95–110. Produção: 6–7h.<br><br>Se seu objetivo for R$ 80/hora, o preço mínimo saudável é R$ 590. Você pode estar um pouco abaixo do ideal para peças mais detalhadas.<div class="source">📎 Pedidos de casamento analisados · precificação por hora</div>`,
+
+  'Estou trabalhando muito para o que ganho?':
+    `Essa é a pergunta mais importante. Estimando pelo volume de junho: você trabalhou <strong>~48 horas nas últimas 2 semanas</strong> e gerou R$ 2.140 confirmados — mais ~R$ 1.200 em produção.<br><br>Isso dá <strong>~R$ 70/hora bruto</strong>, ou ~R$ 53/hora depois dos ingredientes. É uma renda acima da média para confeitaria artesanal.<br><br>Mas tem 3 alavancas que aumentam o ganho por hora sem trabalhar mais: (1) priorizar biscoito de casamento e corporativo sobre avulso, (2) criar o kit presente para eliminar negociação, (3) cobrar taxa express para pedidos com menos de 5 dias.<div class="source">📎 Estimativa de horas × receita · Dolce Vita jun/2026</div>`,
+
+  'Como crescer sem trabalhar mais horas?':
+    `O Dolce Vita tem <strong>3 alavancas reais de crescimento sem aumentar horas</strong>:<br><br><strong>1. Subir o ticket médio</strong> — você já fez isso (+34% vs ano passado). Continuar priorizando casamento e B2B faz isso naturalmente.<br><br><strong>2. Corporativo recorrente</strong> — 1 empresa que pede todo mês vale 4 clientes PF em termos de receita previsível e trabalho de negociação.<br><br><strong>3. Kit presente fixo</strong> — elimina 30 min de negociação por pedido. Se vender 5 por mês, você ganha 2,5h de volta e ~R$ 475 sem esforço extra.<div class="source">📎 Análise estratégica · histórico Dolce Vita</div>`,
+};
+
+const FB = [
+  `Com base no histórico do Dolce Vita, consigo ver um padrão interessante aí. Pode me dar mais contexto sobre o que está acontecendo? Assim a análise fica mais precisa.<div class="source">📎 Contexto: 2 anos de pedidos · Jundiaí-SP</div>`,
+  `Boa pergunta. Cruzando o histórico de pedidos com os padrões de sazonalidade de Jundiaí, há algo relevante aqui. Quer que eu detalhe por algum ângulo específico?<div class="source">📎 Clareza × Dolce Vita</div>`,
+  `Encontrei menções a isso nos últimos pedidos. Para responder com mais precisão, você poderia descrever um pouco mais o contexto atual do ateliê?<div class="source">📎 Histórico Dolce Vita · atualizado hoje</div>`,
+];
+let fi = 0;
+
+function qask(q) { document.getElementById('ci').value = q; send(); }
+
+function send() {
+  const ci = document.getElementById('ci');
+  const msgs = document.getElementById('chat-msgs');
+  const txt = ci.value.trim();
+  if (!txt) return;
+
+  msgs.innerHTML += `<div class="msg user"><div class="msg-av">B</div><div class="bubble">${txt}</div></div>`;
+  ci.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+
+  const tid = 'tp' + Date.now();
+  msgs.innerHTML += `<div class="msg" id="${tid}"><div class="msg-av">🍪</div><div class="bubble"><div class="typing-row"><div class="td"></div><div class="td"></div><div class="td"></div></div></div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  setTimeout(() => {
+    document.getElementById(tid)?.remove();
+    const reply = RS[txt] || FB[fi++ % FB.length];
+    msgs.innerHTML += `<div class="msg"><div class="msg-av">🍪</div><div class="bubble">${reply}</div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1000);
+}
+
+function igTab(el, panelId) {
+  document.querySelectorAll('.ig-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.ig-panel').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById(panelId).classList.add('on');
+}
+
+</script>
+</body>
+</html>

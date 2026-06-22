@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Clareza × Dolce Vita — Check-in Semanal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --parchment: #f5f0e8;
+  --biscuit: #e8d5b8;
+  --caramel: #c49a5a;
+  --cacao: #3d2a18;
+  --espresso: #1e1208;
+  --glace: #d4657a;
+  --glace-lt: #fdf0f3;
+  --sage: #5a7a5a;
+  --amber: #c47a1e;
+  --muted: #8a6e54;
+  --dim: #c4ae96;
+  --border: #e0d0ba;
+  --ff-serif: 'Cormorant Garamond', Georgia, serif;
+  --ff-sans: 'DM Sans', sans-serif;
+  --ff-mono: 'DM Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  font-family: var(--ff-sans);
+  font-size: 14px;
+  color: var(--cacao);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--espresso);
+  padding: 1.4rem 1.5rem 1.2rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.header-logo {
+  font-family: var(--ff-serif);
+  font-size: 1.1rem; color: var(--glace);
+  font-style: italic;
+}
+.header-sep { color: #3d2a18; margin: 0 4px; font-family: var(--ff-mono); font-size: 0.7rem; }
+.header-brand { font-family: var(--ff-serif); font-size: 1.1rem; color: #e8d8c0; font-weight: 300; }
+.header-right { margin-left: auto; }
+.header-date { font-family: var(--ff-mono); font-size: 0.62rem; color: var(--caramel); opacity: 0.8; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--parchment);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 1.5rem 1.2rem;
+}
+.hero-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--dim);
+  margin-bottom: 0.3rem;
+}
+.hero-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-weight: 300; line-height: 1.2; color: var(--cacao);
+}
+.hero-title em { color: var(--glace); font-style: italic; }
+.hero-sub {
+  font-size: 0.78rem; color: var(--muted);
+  margin-top: 0.4rem; line-height: 1.6;
+}
+.timer-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--glace-lt); border: 1px solid #e8a8b8;
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 0.62rem; color: var(--glace);
+  font-family: var(--ff-mono); margin-top: 0.7rem;
+}
+
+/* ── FORM ── */
+.form-body { padding: 1.2rem 1.5rem 2rem; max-width: 560px; }
+
+.step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.step:focus-within { box-shadow: 0 2px 12px rgba(212,101,122,0.12); border-color: #e8a8b8; }
+
+.step-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--parchment);
+  background: var(--parchment);
+}
+.step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--espresso); color: var(--caramel);
+  font-family: var(--ff-mono); font-size: 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-weight: 400;
+}
+.step-num.done { background: var(--sage); color: white; }
+.step-label {
+  font-size: 0.8rem; font-weight: 500; color: var(--cacao);
+  flex: 1;
+}
+.step-optional {
+  font-size: 0.58rem; color: var(--dim);
+  font-family: var(--ff-mono); letter-spacing: 0.1em;
+}
+.step-body { padding: 0.9rem 1rem; }
+
+/* inputs */
+label {
+  display: block;
+  font-size: 0.68rem; color: var(--muted);
+  margin-bottom: 4px; margin-top: 0.7rem;
+  letter-spacing: 0.05em;
+}
+label:first-child { margin-top: 0; }
+
+input[type=text], input[type=number], input[type=date], textarea, select {
+  width: 100%;
+  background: var(--parchment);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.78rem;
+  color: var(--cacao);
+  font-family: var(--ff-sans);
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--glace); background: white; }
+textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+select { cursor: pointer; }
+
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.input-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+
+/* pedido item */
+.pedido-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+.pedido-item {
+  background: var(--parchment);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.65rem 0.75rem;
+  position: relative;
+}
+.pedido-item-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+.pedido-item-grid-3 {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+.pedido-remove {
+  position: absolute; top: 6px; right: 8px;
+  background: none; border: none;
+  color: var(--dim); font-size: 0.9rem;
+  cursor: pointer; line-height: 1;
+  transition: color 0.12s;
+}
+.pedido-remove:hover { color: var(--glace); }
+.pedido-mini-label {
+  font-size: 0.6rem; color: var(--muted);
+  letter-spacing: 0.08em; margin-bottom: 2px;
+  display: block;
+}
+
+/* add btn */
+.add-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: 1px dashed var(--biscuit);
+  border-radius: 5px; padding: 0.5rem 0.75rem;
+  font-size: 0.72rem; color: var(--muted);
+  cursor: pointer; width: 100%; margin-top: 0.5rem;
+  font-family: var(--ff-sans);
+  transition: all 0.12s;
+}
+.add-btn:hover { border-color: var(--glace); color: var(--glace); background: var(--glace-lt); }
+
+/* radio / checkbox */
+.pill-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+.pill-opt {
+  background: var(--parchment); border: 1px solid var(--border);
+  border-radius: 20px; padding: 0.3rem 0.75rem;
+  font-size: 0.68rem; cursor: pointer; color: var(--muted);
+  transition: all 0.12s; user-select: none;
+}
+.pill-opt.on { background: var(--espresso); color: var(--caramel); border-color: var(--espresso); }
+.pill-opt:hover:not(.on) { border-color: var(--glace); color: var(--glace); }
+
+/* humor */
+.humor-row { display: flex; gap: 0.5rem; margin-top: 0.4rem; }
+.humor-btn {
+  flex: 1; background: var(--parchment); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.6rem 0.3rem;
+  text-align: center; cursor: pointer;
+  transition: all 0.12s; user-select: none;
+}
+.humor-btn .emoji { font-size: 1.4rem; display: block; }
+.humor-btn .label { font-size: 0.6rem; color: var(--muted); margin-top: 3px; display: block; }
+.humor-btn.on { border-color: var(--glace); background: var(--glace-lt); }
+.humor-btn:hover:not(.on) { border-color: var(--biscuit); }
+
+/* submit */
+.submit-area { margin-top: 1.2rem; }
+.submit-btn {
+  width: 100%; background: var(--espresso); color: var(--cream, #faf6f0);
+  border: none; border-radius: 8px;
+  padding: 0.9rem;
+  font-family: var(--ff-serif); font-size: 1rem;
+  font-weight: 400; font-style: italic;
+  cursor: pointer; transition: opacity 0.15s;
+  letter-spacing: 0.02em;
+}
+.submit-btn:hover { opacity: 0.85; }
+.submit-hint {
+  font-size: 0.65rem; color: var(--dim);
+  text-align: center; margin-top: 0.5rem;
+  font-family: var(--ff-mono);
+}
+
+/* success */
+.success {
+  display: none;
+  text-align: center; padding: 3rem 1.5rem;
+}
+.success-icon { font-size: 3rem; margin-bottom: 1rem; }
+.success-title {
+  font-family: var(--ff-serif);
+  font-size: 1.6rem; font-weight: 300;
+  color: var(--cacao); margin-bottom: 0.5rem;
+}
+.success-title em { color: var(--glace); }
+.success-sub { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+.success-summary {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem 1.2rem;
+  margin: 1.2rem 0; text-align: left;
+}
+.sum-row { display: flex; justify-content: space-between; padding: 0.3rem 0; font-size: 0.75rem; border-bottom: 1px solid var(--parchment); }
+.sum-row:last-child { border: none; }
+.sum-label { color: var(--muted); }
+.sum-value { font-family: var(--ff-mono); color: var(--cacao); font-weight: 500; }
+.sum-value.pink { color: var(--glace); }
+.sum-value.green { color: var(--sage); }
+
+.progress-bar {
+  background: var(--parchment); border-radius: 4px;
+  height: 4px; margin: 1rem 0 0.3rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: var(--glace);
+  border-radius: 4px; width: 0%;
+  transition: width 0.4s ease;
+}
+.progress-label { font-size: 0.6rem; color: var(--dim); font-family: var(--ff-mono); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--biscuit); border-radius: 2px; }
+
+@media (max-width: 420px) {
+  .input-row { grid-template-columns: 1fr; }
+  .input-row-3 { grid-template-columns: 1fr 1fr; }
+  .pedido-item-grid-3 { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <span class="header-logo">Clareza</span>
+    <span class="header-sep">×</span>
+    <span class="header-brand">Dolce Vita</span>
+  </div>
+  <div class="header-right">
+    <div class="header-date" id="header-date"></div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Check-in semanal</div>
+  <h1 class="hero-title">Oi, Bianca 🍪<br><em>2 minutos</em> e eu cuido do resto.</h1>
+  <p class="hero-sub">Responde as perguntas abaixo toda segunda-feira.<br>Na sexta, você recebe o briefing da semana com tudo organizado.</p>
+  <div class="timer-pill">⏱ tempo estimado: 2 minutos</div>
+
+  <div class="progress-bar" style="margin-top:1rem">
+    <div class="progress-fill" id="progress"></div>
+  </div>
+  <div class="progress-label" id="progress-label">0 de 5 seções preenchidas</div>
+</div>
+
+<div class="form-body" id="form-area">
+
+  <!-- STEP 1: Pedidos da semana -->
+  <div class="step" id="s1">
+    <div class="step-header">
+      <div class="step-num" id="n1">1</div>
+      <div class="step-label">Pedidos desta semana</div>
+      <div class="step-optional">obrigatório</div>
+    </div>
+    <div class="step-body">
+      <div class="pedido-list" id="pedido-list"></div>
+      <button class="add-btn" onclick="addPedido()">
+        + Adicionar pedido
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Entregas -->
+  <div class="step" id="s2">
+    <div class="step-header">
+      <div class="step-num" id="n2">2</div>
+      <div class="step-label">Entregas confirmadas esta semana</div>
+      <div class="step-optional">obrigatório</div>
+    </div>
+    <div class="step-body">
+      <label>Quantas entregas você fez ou vai fazer esta semana?</label>
+      <input type="number" id="qtd-entregas" min="0" max="30" placeholder="ex: 3" oninput="updateProgress()"/>
+
+      <label style="margin-top:0.8rem">Alguma entrega com problema ou atraso?</label>
+      <textarea id="prob-entrega" placeholder="Se não teve problema, deixa em branco..." rows="2" oninput="updateProgress()"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 3: Financeiro -->
+  <div class="step" id="s3">
+    <div class="step-header">
+      <div class="step-num" id="n3">3</div>
+      <div class="step-label">Dinheiro</div>
+      <div class="step-optional">obrigatório</div>
+    </div>
+    <div class="step-body">
+      <div class="input-row">
+        <div>
+          <label>Receita recebida esta semana (R$)</label>
+          <input type="number" id="receita" placeholder="ex: 1200" oninput="updateProgress()"/>
+        </div>
+        <div>
+          <label>Tem sinal ou pagamento pendente?</label>
+          <select id="pagamento-pendente" onchange="updateProgress()">
+            <option value="">Selecionar</option>
+            <option value="nao">Não, tudo em dia</option>
+            <option value="sim">Sim, tem pendência</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="pendencia-detalhe" style="display:none;margin-top:0.6rem">
+        <label>Quem está devendo e quanto?</label>
+        <textarea id="pendencia-txt" placeholder="ex: Marina — R$ 120 (metade do bolo de aniversário)" rows="2"></textarea>
+      </div>
+
+      <label style="margin-top:0.8rem">Gastou com ingredientes esta semana? (R$)</label>
+      <input type="number" id="custo" placeholder="ex: 280 (opcional)" />
+    </div>
+  </div>
+
+  <!-- STEP 4: Instagram -->
+  <div class="step" id="s4">
+    <div class="step-header">
+      <div class="step-num" id="n4">4</div>
+      <div class="step-label">Instagram da semana</div>
+      <div class="step-optional">opcional</div>
+    </div>
+    <div class="step-body">
+      <label>Quantos posts você fez esta semana?</label>
+      <div class="pill-group" id="posts-group">
+        <div class="pill-opt" onclick="selectPill(this,'posts-group')">0</div>
+        <div class="pill-opt" onclick="selectPill(this,'posts-group')">1</div>
+        <div class="pill-opt" onclick="selectPill(this,'posts-group')">2</div>
+        <div class="pill-opt" onclick="selectPill(this,'posts-group')">3</div>
+        <div class="pill-opt" onclick="selectPill(this,'posts-group')">4+</div>
+      </div>
+
+      <label style="margin-top:0.9rem">Turbinou algum post?</label>
+      <div class="pill-group" id="boost-group">
+        <div class="pill-opt" onclick="selectPill(this,'boost-group')">Não</div>
+        <div class="pill-opt" onclick="selectPill(this,'boost-group')">Sim</div>
+      </div>
+
+      <div id="boost-detalhe" style="display:none;margin-top:0.6rem">
+        <div class="input-row">
+          <div>
+            <label>Qual post?</label>
+            <input type="text" id="boost-post" placeholder="ex: foto do bolo casamento"/>
+          </div>
+          <div>
+            <label>Quanto investiu? (R$)</label>
+            <input type="number" id="boost-valor" placeholder="ex: 20"/>
+          </div>
+        </div>
+      </div>
+
+      <label style="margin-top:0.9rem">Recebeu directs ou comentários de novos clientes?</label>
+      <div class="pill-group" id="novos-group">
+        <div class="pill-opt" onclick="selectPill(this,'novos-group')">Nenhum</div>
+        <div class="pill-opt" onclick="selectPill(this,'novos-group')">1–2</div>
+        <div class="pill-opt" onclick="selectPill(this,'novos-group')">3–5</div>
+        <div class="pill-opt" onclick="selectPill(this,'novos-group')">5+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: Humor + decisão -->
+  <div class="step" id="s5">
+    <div class="step-header">
+      <div class="step-num" id="n5">5</div>
+      <div class="step-label">Como foi a semana?</div>
+      <div class="step-optional">opcional</div>
+    </div>
+    <div class="step-body">
+      <label>De forma geral, como você se sentiu esta semana?</label>
+      <div class="humor-row">
+        <div class="humor-btn" onclick="selectHumor(this)">
+          <span class="emoji">😓</span>
+          <span class="label">Pesada</span>
+        </div>
+        <div class="humor-btn" onclick="selectHumor(this)">
+          <span class="emoji">😐</span>
+          <span class="label">Normal</span>
+        </div>
+        <div class="humor-btn" onclick="selectHumor(this)">
+          <span class="emoji">😊</span>
+          <span class="label">Boa</span>
+        </div>
+        <div class="humor-btn" onclick="selectHumor(this)">
+          <span class="emoji">🤩</span>
+          <span class="label">Incrível</span>
+        </div>
+      </div>
+
+      <label style="margin-top:0.9rem">Tem alguma dúvida ou decisão que está te travando?</label>
+      <textarea id="decisao" placeholder="ex: não sei se aceito mais um pedido para sábado... estou sobrecarregada" rows="3" oninput="updateProgress()"></textarea>
+
+      <label style="margin-top:0.8rem">Algo que você quer lembrar ou registrar desta semana?</label>
+      <textarea id="nota" placeholder="ex: a Stefani elogiou muito o bolo de festa junina, pode ser oportunidade..." rows="2"></textarea>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitForm()">
+      Enviar check-in desta semana →
+    </button>
+    <div class="submit-hint">Suas respostas ficam salvas e viram o briefing de sexta</div>
+  </div>
+
+</div>
+
+<!-- SUCCESS -->
+<div class="success" id="success-area">
+  <div class="success-icon">🍪</div>
+  <h2 class="success-title">Feito, Bianca!<br><em>Obrigada.</em></h2>
+  <p class="success-sub">Recebi tudo. Vou analisar e te mando<br>o briefing com os insights desta semana.</p>
+
+  <div class="success-summary" id="summary-content"></div>
+
+  <p style="font-size:0.72rem;color:var(--muted);margin-top:1rem;line-height:1.6">
+    📲 Se surgir algo importante antes de sexta,<br>
+    me manda mensagem pelo WhatsApp.
+  </p>
+</div>
+
+<script>
+// ── Date ──
+const now = new Date();
+const days = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+document.getElementById('header-date').textContent =
+  `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+// ── Pedidos ──
+let pedidoCount = 0;
+
+function addPedido() {
+  pedidoCount++;
+  const id = pedidoCount;
+  const list = document.getElementById('pedido-list');
+  const div = document.createElement('div');
+  div.className = 'pedido-item';
+  div.id = `pedido-${id}`;
+  div.innerHTML = `
+    <button class="pedido-remove" onclick="removePedido(${id})" title="Remover">×</button>
+    <div class="pedido-item-grid">
+      <div>
+        <span class="pedido-mini-label">Cliente</span>
+        <input type="text" placeholder="ex: Camila Barrella" oninput="updateProgress()"/>
+      </div>
+      <div>
+        <span class="pedido-mini-label">Tema / produto</span>
+        <input type="text" placeholder="ex: Bolo aniversário Sonic"/>
+      </div>
+    </div>
+    <div class="pedido-item-grid-3">
+      <div>
+        <span class="pedido-mini-label">Entrega</span>
+        <input type="date"/>
+      </div>
+      <div>
+        <span class="pedido-mini-label">Valor (R$)</span>
+        <input type="number" placeholder="ex: 280"/>
+      </div>
+      <div>
+        <span class="pedido-mini-label">Pagamento</span>
+        <select>
+          <option value="">--</option>
+          <option>Integral</option>
+          <option>Sinal</option>
+          <option>Pendente</option>
+        </select>
+      </div>
+    </div>`;
+  list.appendChild(div);
+  updateProgress();
+}
+
+function removePedido(id) {
+  document.getElementById(`pedido-${id}`)?.remove();
+  updateProgress();
+}
+
+// ── Pills ──
+function selectPill(el, groupId) {
+  document.querySelectorAll(`#${groupId} .pill-opt`).forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  if (groupId === 'boost-group') {
+    document.getElementById('boost-detalhe').style.display =
+      el.textContent === 'Sim' ? 'block' : 'none';
+  }
+  updateProgress();
+}
+
+function selectHumor(el) {
+  document.querySelectorAll('.humor-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  updateProgress();
+}
+
+// ── Pagamento pendente toggle ──
+document.getElementById('pagamento-pendente').addEventListener('change', function() {
+  document.getElementById('pendencia-detalhe').style.display =
+    this.value === 'sim' ? 'block' : 'none';
+});
+
+// ── Progress ──
+function updateProgress() {
+  let done = 0;
+  const total = 5;
+
+  // s1: tem pelo menos 1 pedido com cliente
+  const pedidoInputs = document.querySelectorAll('#pedido-list .pedido-item input[type=text]');
+  const hasCliente = Array.from(pedidoInputs).some(i => i.value.trim().length > 0);
+  if (hasCliente || document.querySelectorAll('#pedido-list .pedido-item').length > 0) done++;
+
+  // s2: entregas preenchidas
+  if (document.getElementById('qtd-entregas').value) done++;
+
+  // s3: receita preenchida
+  if (document.getElementById('receita').value) done++;
+
+  // s4: posts selecionados
+  if (document.querySelector('#posts-group .pill-opt.on')) done++;
+
+  // s5: humor ou decisão
+  if (document.querySelector('.humor-btn.on') || document.getElementById('decisao').value.trim()) done++;
+
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${done} de ${total} seções preenchidas`;
+
+  // mark steps done
+  for (let i = 1; i <= 5; i++) {
+    const n = document.getElementById(`n${i}`);
+    if (i <= done) n.classList.add('done');
+    else n.classList.remove('done');
+  }
+}
+
+// ── Submit ──
+function submitForm() {
+  // collect
+  const pedidos = [];
+  document.querySelectorAll('#pedido-list .pedido-item').forEach(item => {
+    const inputs = item.querySelectorAll('input, select');
+    pedidos.push({
+      cliente: inputs[0]?.value || '',
+      tema: inputs[1]?.value || '',
+      entrega: inputs[2]?.value || '',
+      valor: inputs[3]?.value || '',
+      pagto: inputs[4]?.value || '',
+    });
+  });
+
+  const qtdEntregas = document.getElementById('qtd-entregas').value || '—';
+  const receita = document.getElementById('receita').value;
+  const custo = document.getElementById('custo').value;
+  const posts = document.querySelector('#posts-group .pill-opt.on')?.textContent || '—';
+  const humor = document.querySelector('.humor-btn.on .label')?.textContent || '—';
+  const boost = document.querySelector('#boost-group .pill-opt.on')?.textContent || '—';
+  const novos = document.querySelector('#novos-group .pill-opt.on')?.textContent || '—';
+  const decisao = document.getElementById('decisao').value;
+  const nota = document.getElementById('nota').value;
+  const pendencia = document.getElementById('pagamento-pendente').value;
+  const pendenciaTxt = document.getElementById('pendencia-txt').value;
+
+  const margem = receita && custo
+    ? `${Math.round(((receita - custo) / receita) * 100)}%`
+    : receita ? '~75% estimado' : '—';
+
+  // summary
+  let sumHTML = '';
+
+  sumHTML += `<div class="sum-row"><span class="sum-label">Pedidos registrados</span><span class="sum-value pink">${pedidos.filter(p=>p.cliente).length}</span></div>`;
+  sumHTML += `<div class="sum-row"><span class="sum-label">Entregas esta semana</span><span class="sum-value">${qtdEntregas}</span></div>`;
+  if (receita) sumHTML += `<div class="sum-row"><span class="sum-label">Receita recebida</span><span class="sum-value green">R$ ${parseFloat(receita).toLocaleString('pt-BR')}</span></div>`;
+  if (custo) sumHTML += `<div class="sum-row"><span class="sum-label">Custo ingredientes</span><span class="sum-value">R$ ${parseFloat(custo).toLocaleString('pt-BR')}</span></div>`;
+  sumHTML += `<div class="sum-row"><span class="sum-label">Margem estimada</span><span class="sum-value green">${margem}</span></div>`;
+  sumHTML += `<div class="sum-row"><span class="sum-label">Posts no Instagram</span><span class="sum-value">${posts}</span></div>`;
+  sumHTML += `<div class="sum-row"><span class="sum-label">Post turbinado</span><span class="sum-value">${boost}</span></div>`;
+  sumHTML += `<div class="sum-row"><span class="sum-label">Novos contatos Instagram</span><span class="sum-value">${novos}</span></div>`;
+  if (pendencia === 'sim' && pendenciaTxt) sumHTML += `<div class="sum-row"><span class="sum-label">⚠ Pendência</span><span class="sum-value pink">${pendenciaTxt}</span></div>`;
+  sumHTML += `<div class="sum-row"><span class="sum-label">Semana</span><span class="sum-value">${humor}</span></div>`;
+  if (decisao) sumHTML += `<div class="sum-row"><span class="sum-label">Decisão em aberto</span><span class="sum-value" style="font-size:.68rem;white-space:normal;max-width:200px;text-align:right">${decisao.substring(0,60)}${decisao.length>60?'...':''}</span></div>`;
+
+  document.getElementById('summary-content').innerHTML = sumHTML;
+  document.getElementById('form-area').style.display = 'none';
+  document.getElementById('success-area').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// init — add first pedido automatically
+addPedido();
+</script>
+</body>
+</html>

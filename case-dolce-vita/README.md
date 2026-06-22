@@ -28,6 +28,10 @@ Um sistema que transforma os pedidos não estruturados de WhatsApp em dados estr
 
 A Dolce Vita é o ambiente onde a Clareza.ia valida, num negócio real, os modelos operacionais com IA antes de aplicá-los com clientes. É a prova de que a tese — *contexto estruturado é o diferencial* — funciona até no menor dos negócios.
 
+## O sistema em produção
+
+O código real que roda este caso está em [`../apps-script`](../apps-script): um sistema sobre Google Apps Script + Google Sheets (custo R$ 0/mês) que faz o parse das mensagens de fechamento do WhatsApp, grava cada pedido de forma estruturada e serve um painel vivo com GMV, recebíveis, próximas entregas e top clientes.
+
 ---
 
-*Os prints e números neste case usam dados de exemplo ou anonimizados para preservar a privacidade do negócio e de seus clientes.*
+*Os números e exemplos neste case usam dados ilustrativos ou anonimizados para preservar a privacidade do negócio e de seus clientes. O código em `apps-script/` lê os dados reais em tempo de execução da planilha — nenhum dado de cliente fica armazenado no código.*

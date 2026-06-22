@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Clareza — Plano de Negócios</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #101010;
+    --surface2: #161616;
+    --border: #1e1e1e;
+    --border2: #2a2a2a;
+    --text: #e8e2d4;
+    --muted: #666;
+    --dim: #333;
+    --gold: #c8a96e;
+    --gold2: #8a6f3e;
+    --green: #5a8a5a;
+    --red: #8a4a4a;
+    --blue: #4a6a8a;
+    --ff-display: 'Playfair Display', Georgia, serif;
+    --ff-body: 'DM Sans', sans-serif;
+    --ff-mono: 'DM Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff-body);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── LAYOUT ── */
+  .shell { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 220px; min-width: 220px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: fixed; top: 0; left: 0;
+    height: 100vh; overflow-y: auto;
+    display: flex; flex-direction: column;
+    z-index: 100;
+  }
+  .main { margin-left: 220px; flex: 1; }
+
+  /* ── SIDEBAR ── */
+  .sidebar-brand {
+    padding: 1.5rem 1.2rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-mark {
+    font-family: var(--ff-display);
+    font-size: 1.3rem;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+  }
+  .brand-sub {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .nav { padding: 1rem 0; flex: 1; }
+  .nav-section {
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding: 0.6rem 1.2rem 0.3rem;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    user-select: none;
+  }
+  .nav-item:hover { color: var(--text); background: var(--surface2); }
+  .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: #1a1508; }
+  .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.5; flex-shrink: 0; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; min-height: 100vh; padding: 2.5rem 2rem; max-width: 820px; }
+  .section.active { display: block; }
+
+  /* ── TYPOGRAPHY ── */
+  .page-eyebrow {
+    font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.6rem;
+  }
+  .page-title {
+    font-family: var(--ff-display);
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 400; line-height: 1.15;
+    color: var(--text); margin-bottom: 0.5rem;
+  }
+  .page-title em { color: var(--gold); font-style: italic; }
+  .page-lead {
+    font-size: 0.9rem; color: #aaa; line-height: 1.7;
+    max-width: 560px; margin-bottom: 2rem;
+    border-left: 2px solid var(--border2);
+    padding-left: 1rem;
+  }
+  h2 {
+    font-family: var(--ff-display);
+    font-size: 1.1rem; font-weight: 400;
+    color: var(--text); margin: 2rem 0 0.8rem;
+  }
+  h3 {
+    font-size: 0.72rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 1.5rem 0 0.6rem;
+  }
+  p { color: #999; font-size: 0.83rem; line-height: 1.75; margin-bottom: 0.8rem; }
+  strong { color: var(--text); font-weight: 500; }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px; padding: 1rem;
+  }
+  .card.gold { border-color: #c8a96e33; background: #1a1508; }
+  .card.green { border-color: #5a8a5a33; background: #0d150d; }
+  .card.red { border-color: #8a4a4a33; background: #150d0d; }
+  .card-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .card-value { font-family: var(--ff-mono); font-size: 1.2rem; color: var(--text); }
+  .card-value.gold { color: var(--gold); }
+  .card-value.green { color: #6e9e6e; }
+  .card-sub { font-size: 0.68rem; color: var(--dim); margin-top: 4px; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 1.5rem; margin: 1rem 0; }
+  .timeline::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 1px; background: var(--border2); }
+  .tl-item { position: relative; margin-bottom: 1.4rem; }
+  .tl-dot {
+    position: absolute; left: -1.5rem; top: 3px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--gold2); border: 1px solid var(--gold);
+  }
+  .tl-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .tl-title { font-size: 0.85rem; color: var(--text); font-weight: 500; margin-bottom: 4px; }
+  .tl-body { font-size: 0.78rem; color: #777; line-height: 1.6; }
+
+  /* ── PROTOTYPE ── */
+  .proto-shell {
+    background: #050505;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .proto-topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.6rem 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .proto-dots { display: flex; gap: 5px; }
+  .proto-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .proto-url {
+    flex: 1; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 0.2rem 0.8rem; font-size: 0.65rem;
+    color: var(--muted); font-family: var(--ff-mono);
+    text-align: center;
+  }
+
+  /* ── DASHBOARD PROTOTYPE ── */
+  .dash {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 480px;
+  }
+  .dash-nav {
+    background: #0d0d0d;
+    border-right: 1px solid var(--border);
+    padding: 1rem 0;
+  }
+  .dash-nav-brand {
+    padding: 0 1rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.8rem;
+    font-family: var(--ff-display);
+    color: var(--gold);
+    font-size: 1rem;
+  }
+  .dash-nav-item {
+    padding: 0.45rem 1rem;
+    font-size: 0.7rem; color: var(--muted);
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    transition: all 0.12s;
+  }
+  .dash-nav-item:hover { color: var(--text); background: #151515; }
+  .dash-nav-item.on { color: var(--gold); background: #1a1508; border-left: 2px solid var(--gold); }
+  .dash-content { padding: 1.2rem; overflow: auto; }
+  .dash-header { margin-bottom: 1rem; }
+  .dash-greeting { font-size: 0.7rem; color: var(--muted); margin-bottom: 2px; }
+  .dash-title { font-family: var(--ff-display); font-size: 1.1rem; color: var(--text); }
+
+  /* kpi row */
+  .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.5rem; margin-bottom: 1rem; }
+  .kpi {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.65rem 0.75rem;
+  }
+  .kpi-l { font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .kpi-v { font-family: var(--ff-mono); font-size: 1rem; color: var(--text); }
+  .kpi-d { font-size: 0.6rem; color: #5a8a5a; margin-top: 2px; }
+  .kpi-d.down { color: #8a4a4a; }
+
+  /* briefing */
+  .briefing {
+    background: #0d0d0d; border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.8rem; margin-bottom: 0.8rem;
+  }
+  .briefing-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.6rem;
+  }
+  .briefing-title { font-size: 0.72rem; color: var(--text); font-weight: 500; }
+  .briefing-badge {
+    font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+    background: #1a1508; color: var(--gold);
+    border: 1px solid var(--gold2); border-radius: 2px;
+    padding: 2px 6px;
+  }
+  .briefing-item {
+    display: flex; gap: 8px; padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border); font-size: 0.7rem;
+  }
+  .briefing-item:last-child { border: none; }
+  .bi-icon { font-size: 0.8rem; flex-shrink: 0; }
+  .bi-text { color: #999; line-height: 1.5; }
+  .bi-text strong { color: var(--text); }
+
+  /* decisions */
+  .decisions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .dec {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.65rem;
+  }
+  .dec-tag {
+    font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .dec-q { font-size: 0.7rem; color: var(--text); margin-bottom: 4px; }
+  .dec-a { font-size: 0.65rem; color: #888; line-height: 1.5; }
+
+  /* ── CHAT PROTOTYPE ── */
+  .chat-wrap {
+    display: grid; grid-template-columns: 1fr;
+    height: 380px; overflow: hidden;
+  }
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 1rem;
+    display: flex; flex-direction: column; gap: 0.8rem;
+    height: 310px;
+  }
+  .msg { display: flex; gap: 0.6rem; align-items: flex-start; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; flex-shrink: 0; color: var(--muted);
+  }
+  .msg.user .msg-avatar { background: #1a1508; border-color: var(--gold2); color: var(--gold); }
+  .msg-bubble {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.55rem 0.75rem;
+    font-size: 0.72rem; color: #bbb; line-height: 1.6; max-width: 75%;
+  }
+  .msg.user .msg-bubble {
+    background: #1a1508; border-color: var(--gold2); color: var(--text);
+  }
+  .msg-bubble strong { color: var(--text); }
+  .msg-source {
+    font-size: 0.6rem; color: var(--gold); margin-top: 4px;
+    border-top: 1px solid var(--border); padding-top: 4px;
+  }
+  .chat-input-row {
+    border-top: 1px solid var(--border);
+    padding: 0.7rem; display: flex; gap: 0.5rem;
+  }
+  .chat-input {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.45rem 0.75rem;
+    font-size: 0.72rem; color: var(--text); font-family: var(--ff-body);
+    outline: none;
+  }
+  .chat-input:focus { border-color: var(--gold2); }
+  .chat-send {
+    background: var(--gold); color: #080808; border: none;
+    border-radius: 4px; padding: 0.4rem 0.8rem;
+    font-size: 0.7rem; font-family: var(--ff-body);
+    cursor: pointer; font-weight: 500; transition: opacity 0.15s;
+  }
+  .chat-send:hover { opacity: 0.85; }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin: 0.5rem 0; }
+  th { text-align: left; padding: 0.4rem 0.6rem; color: var(--muted); font-weight: 400;
+    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid var(--border); }
+  td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #111; color: #999; }
+  tr:last-child td { border: none; }
+  td.hi { color: var(--text); }
+  td.gold { color: var(--gold); font-family: var(--ff-mono); }
+  td.green { color: #6e9e6e; }
+  td.red { color: #c87070; }
+
+  /* ── PILL ── */
+  .pill {
+    display: inline-block; font-size: 0.6rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 2px;
+    border: 1px solid; margin: 2px;
+  }
+  .pill.gold { color: var(--gold); border-color: var(--gold2); background: #1a1508; }
+  .pill.green { color: #6e9e6e; border-color: #3a5a3a; background: #0d150d; }
+  .pill.gray { color: var(--muted); border-color: var(--border2); background: var(--surface2); }
+
+  /* ── QUOTE ── */
+  .quote {
+    border-left: 3px solid var(--gold2);
+    padding: 0.8rem 1rem; margin: 1.2rem 0;
+    background: #0d0d0a;
+    border-radius: 0 4px 4px 0;
+  }
+  .quote p { color: #bbb; font-style: italic; margin: 0; }
+  .quote cite { font-size: 0.65rem; color: var(--muted); display: block; margin-top: 4px; }
+
+  /* ── RISK ── */
+  .risk-row { display: flex; gap: 0.6rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+  .risk-row:last-child { border: none; }
+  .risk-level {
+    width: 6px; border-radius: 2px; flex-shrink: 0;
+    align-self: stretch; min-height: 40px;
+  }
+  .risk-level.high { background: #8a4a4a; }
+  .risk-level.mid { background: #8a7a3a; }
+  .risk-level.low { background: #3a5a3a; }
+  .risk-title { font-size: 0.75rem; color: var(--text); margin-bottom: 3px; }
+  .risk-body { font-size: 0.7rem; color: #666; line-height: 1.5; }
+
+  /* ── PROTO TABS ── */
+  .proto-tabs { display: flex; gap: 4px; padding: 0.6rem 1rem; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .proto-tab {
+    font-size: 0.65rem; padding: 0.3rem 0.8rem;
+    color: var(--muted); cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.12s;
+  }
+  .proto-tab.on { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section.active > * { animation: fadeUp 0.3s ease both; }
+  .section.active > *:nth-child(2) { animation-delay: 0.05s; }
+  .section.active > *:nth-child(3) { animation-delay: 0.1s; }
+  .section.active > *:nth-child(4) { animation-delay: 0.15s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .sidebar { width: 180px; min-width: 180px; }
+    .main { margin-left: 180px; }
+    .section { padding: 1.5rem 1rem; }
+    .kpi-row { grid-template-columns: repeat(2,1fr); }
+    .dash { grid-template-columns: 1fr; }
+    .dash-nav { display: none; }
+    .decisions { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-mark">Clareza</div>
+    <div class="brand-sub">Plano de Negócios</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section">Estratégia</div>
+    <div class="nav-item active" onclick="go('problema')"><div class="nav-dot"></div>O Problema</div>
+    <div class="nav-item" onclick="go('solucao')"><div class="nav-dot"></div>A Solução</div>
+    <div class="nav-item" onclick="go('mercado')"><div class="nav-dot"></div>Mercado</div>
+    <div class="nav-item" onclick="go('modelo')"><div class="nav-dot"></div>Modelo de Negócio</div>
+
+    <div class="nav-section" style="margin-top:0.5rem">Execução</div>
+    <div class="nav-item" onclick="go('gtm')"><div class="nav-dot"></div>Go-to-Market</div>
+    <div class="nav-item" onclick="go('plano90')"><div class="nav-dot"></div>Plano 90 Dias</div>
+    <div class="nav-item" onclick="go('financeiro')"><div class="nav-dot"></div>Financeiro</div>
+    <div class="nav-item" onclick="go('riscos')"><div class="nav-dot"></div>Riscos</div>
+
+    <div class="nav-section" style="margin-top:0.5rem">Produto</div>
+    <div class="nav-item" onclick="go('prototipo')"><div class="nav-dot"></div>Protótipo — Dashboard</div>
+    <div class="nav-item" onclick="go('chat')"><div class="nav-dot"></div>Protótipo — Chat</div>
+  </nav>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+<!-- ══ 1. PROBLEMA ══ -->
+<section class="section active" id="problema">
+  <div class="page-eyebrow">01 — O Problema</div>
+  <h1 class="page-title">O empresário tem<br><em>informação demais</em><br>e clareza de menos.</h1>
+  <p class="page-lead">Não é um problema de dados. É um problema de síntese. O dono de uma pequena empresa toma dezenas de decisões por semana — e a maioria delas sem o contexto certo do seu próprio negócio.</p>
+
+  <div class="quote">
+    <p>"Como continuar tomando boas decisões sem gastar cada vez mais tempo organizando informação?"</p>
+    <cite>— Dor identificada em almoço com empresários brasileiros</cite>
+  </div>
+
+  <h2>Onde a informação está perdida</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">WhatsApp</div>
+      <div class="card-value" style="font-size:0.85rem;color:#999">Decisões, combinados e contexto crítico enterrados em milhares de mensagens</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Reuniões</div>
+      <div class="card-value" style="font-size:0.85rem;color:#999">Insights e alinhamentos que nunca foram registrados em lugar nenhum</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Planilhas</div>
+      <div class="card-value" style="font-size:0.85rem;color:#999">Dados financeiros isolados, sem narrativa e sem conexão com o contexto real</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Intuição</div>
+      <div class="card-value" style="font-size:0.85rem;color:#999">O dono sabe o que está acontecendo — mas não consegue transferir nem delegar esse saber</div>
+    </div>
+  </div>
+
+  <h2>A consequência real</h2>
+  <p>O empresário passa mais tempo <strong>procurando contexto</strong> do que tomando decisões. Cada semana, horas são gastas respondendo "o que ficou combinado naquela reunião?", "por que as vendas caíram em março?", "qual era o plano para esse cliente?".</p>
+  <p>Ferramentas existentes não resolvem isso. ERPs organizam transações. BI organiza dados históricos. ChatGPT responde perguntas genéricas. <strong>Nenhum entende o contexto específico daquele negócio.</strong></p>
+
+  <hr class="divider"/>
+
+  <h3>Diferença fundamental</h3>
+  <table>
+    <thead><tr><th>O que existe</th><th>O que falta</th></tr></thead>
+    <tbody>
+      <tr><td>Ferramentas que fazem tarefas</td><td class="hi">Sistema que estrutura entendimento</td></tr>
+      <tr><td>Respostas genéricas de IA</td><td class="hi">Respostas dentro do contexto do negócio</td></tr>
+      <tr><td>Dashboards de dados passados</td><td class="hi">Síntese narrativa para decisões futuras</td></tr>
+      <tr><td>Delegar tarefas</td><td class="hi">Delegar entendimento</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══ 2. SOLUÇÃO ══ -->
+<section class="section" id="solucao">
+  <div class="page-eyebrow">02 — A Solução</div>
+  <h1 class="page-title">Um <em>segundo cérebro</em><br>para o seu negócio.</h1>
+  <p class="page-lead">Clareza é uma plataforma que transforma o conhecimento disperso de uma empresa em contexto estruturado — e contexto estruturado em decisões melhores.</p>
+
+  <h2>Como funciona — as 3 camadas</h2>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Camada 1 — Captura</div>
+      <div class="tl-title">O sistema aprende sobre o negócio</div>
+      <div class="tl-body">Reuniões gravadas, documentos, planilhas, histórico de decisões e até mensagens relevantes são ingeridos e indexados. Não é mais trabalho — é captura passiva do que já acontece no dia a dia.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Camada 2 — Síntese</div>
+      <div class="tl-title">A IA entende dentro do contexto daquele negócio</div>
+      <div class="tl-body">Diferente de um ChatGPT genérico, a Clareza responde usando o histórico real da empresa. "Por que as vendas caíram?" gera uma resposta que conecta reuniões, metas e conversas — não um artigo de blog sobre vendas.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Camada 3 — Superfície de Decisão</div>
+      <div class="tl-title">O empresário chega e já sabe o que importa</div>
+      <div class="tl-body">Um briefing semanal gerado automaticamente. Um painel com o que está acontecendo, o que está pendente e quais decisões precisam de atenção — com o contexto já estruturado.</div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <h2>O que diferencia</h2>
+  <div class="card-grid">
+    <div class="card gold">
+      <div class="card-label">Contexto acumulado</div>
+      <div style="font-size:0.78rem;color:#bbb;line-height:1.6">Fica mais valioso com o tempo. O cliente não quer sair porque perderia o histórico construído.</div>
+    </div>
+    <div class="card gold">
+      <div class="card-label">Específico, não genérico</div>
+      <div style="font-size:0.78rem;color:#bbb;line-height:1.6">Responde sobre aquele negócio, não sobre negócios em geral. Impossível de replicar com ChatGPT padrão.</div>
+    </div>
+    <div class="card gold">
+      <div class="card-label">Clareza, não automação</div>
+      <div style="font-size:0.78rem;color:#bbb;line-height:1.6">Não substitui o empresário — amplifica sua capacidade de entender e decidir.</div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+  <h2>A frase que resume o produto</h2>
+  <div class="quote">
+    <p>"A IA pode diminuir o atrito da execução, mas não substitui o peso da autoria. Existe uma diferença importante entre delegar tarefas e delegar entendimento."</p>
+    <cite>— Princípio central do produto</cite>
+  </div>
+</section>
+
+<!-- ══ 3. MERCADO ══ -->
+<section class="section" id="mercado">
+  <div class="page-eyebrow">03 — Mercado</div>
+  <h1 class="page-title">Um mercado de<br><em>4,8 milhões</em><br>de empresas.</h1>
+  <p class="page-lead">O Brasil tem o maior ecossistema de PMEs da América Latina — e a maioria ainda não usa IA de forma estratégica. A janela está aberta.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">TAM — Total</div>
+      <div class="card-value gold">4,8M</div>
+      <div class="card-sub">Pequenas empresas, 5–20 func.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">SAM — Digitalizadas</div>
+      <div class="card-value">4,75M</div>
+      <div class="card-sub">99% com acesso à internet</div>
+    </div>
+    <div class="card">
+      <div class="card-label">SOM — Alvo real</div>
+      <div class="card-value gold">~260k</div>
+      <div class="card-sub">Conscientes de IA + dispostos a pagar</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Adoção estratégica de IA</div>
+      <div class="card-value" style="color:#c87070">28%</div>
+      <div class="card-sub">72% ainda em estágio inicial</div>
+    </div>
+  </div>
+
+  <h2>Por que agora</h2>
+  <p>72% das empresas brasileiras ainda estão nos estágios iniciais de adoção de IA — mas mais da metade pretende investir nos próximos 12 meses. O mercado está se movendo, mas ainda sem uma solução clara para o perfil de PME que você identificou.</p>
+
+  <h2>Concorrência — mapa de posicionamento</h2>
+  <table>
+    <thead><tr><th>Categoria</th><th>Exemplos</th><th>Problema</th><th>Ameaça</th></tr></thead>
+    <tbody>
+      <tr><td class="hi">ERPs com IA</td><td>Omie, Conta Azul</td><td>Organizam transações, não contexto</td><td class="green">Baixa</td></tr>
+      <tr><td class="hi">BI Corporativo</td><td>IBM, SAS, Domo</td><td>Feitos para grandes empresas c/ time de dados</td><td class="green">Nula</td></tr>
+      <tr><td class="hi">Consultorias de dados BR</td><td>4Intelligence, Cognitivo.ai</td><td>Projetos R$50k+, empresas maiores</td><td style="color:#8a7a3a">Média</td></tr>
+      <tr><td class="hi">IA genérica</td><td>ChatGPT, Gemini</td><td>Sem contexto do negócio específico</td><td class="green">Baixa</td></tr>
+      <tr><td class="hi" style="color:var(--gold)">Clareza</td><td>—</td><td>—</td><td class="gold">Espaço aberto</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══ 4. MODELO ══ -->
+<section class="section" id="modelo">
+  <div class="page-eyebrow">04 — Modelo de Negócio</div>
+  <h1 class="page-title">Assinatura mensal<br>com <em>valor crescente</em><br>no tempo.</h1>
+  <p class="page-lead">O modelo SaaS com camada de serviço é o mais adequado para esse perfil de cliente — começa com acompanhamento humano e evolui para plataforma conforme o cliente ganha autonomia.</p>
+
+  <h2>Planos</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">Essencial</div>
+      <div class="card-value gold">R$ 500<span style="font-size:0.7rem;color:var(--muted)">/mês</span></div>
+      <div class="card-sub">Briefing semanal + chat com contexto</div>
+      <div style="margin-top:0.6rem">
+        <span class="pill gray">Self-service</span>
+        <span class="pill gray">até 5 fontes</span>
+      </div>
+    </div>
+    <div class="card gold">
+      <div class="card-label">Profissional ★</div>
+      <div class="card-value gold">R$ 1.200<span style="font-size:0.7rem;color:var(--muted)">/mês</span></div>
+      <div class="card-sub">+ Onboarding guiado + integrações</div>
+      <div style="margin-top:0.6rem">
+        <span class="pill gold">Principal</span>
+        <span class="pill gray">até 15 fontes</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Estratégico</div>
+      <div class="card-value gold">R$ 2.500<span style="font-size:0.7rem;color:var(--muted)">/mês</span></div>
+      <div class="card-sub">+ CS dedicado + reunião mensal de revisão</div>
+      <div style="margin-top:0.6rem">
+        <span class="pill gray">Ilimitado</span>
+        <span class="pill gray">multi-usuário</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Unit Economics — plano Profissional</h2>
+  <div class="card-grid">
+    <div class="card green">
+      <div class="card-label">Margem bruta</div>
+      <div class="card-value green">~80%</div>
+      <div class="card-sub">COGS ~R$ 240/mês/cliente</div>
+    </div>
+    <div class="card green">
+      <div class="card-label">LTV / CAC</div>
+      <div class="card-value green">8×</div>
+      <div class="card-sub">Saudável acima de 3×</div>
+    </div>
+    <div class="card green">
+      <div class="card-label">Payback CAC</div>
+      <div class="card-value green">~2 meses</div>
+      <div class="card-sub">CAC estimado R$ 1.200</div>
+    </div>
+    <div class="card red">
+      <div class="card-label">Churn meta</div>
+      <div class="card-value" style="color:#c87070">&lt; 4%/mês</div>
+      <div class="card-sub">Crítico para o modelo funcionar</div>
+    </div>
+  </div>
+
+  <h2>Fontes de receita — roadmap</h2>
+  <table>
+    <thead><tr><th>Fase</th><th>Modelo</th><th>Receita esperada</th><th>Período</th></tr></thead>
+    <tbody>
+      <tr><td class="gold">Fase 1</td><td class="hi">Serviço piloto</td><td>R$ 3k–15k / projeto</td><td>0–6 meses</td></tr>
+      <tr><td class="gold">Fase 2</td><td class="hi">Assinatura + CS</td><td>R$ 500–2.500/mês</td><td>6–18 meses</td></tr>
+      <tr><td class="gold">Fase 3</td><td class="hi">Plataforma self-serve</td><td>Escala</td><td>18 meses+</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══ 5. GTM ══ -->
+<section class="section" id="gtm">
+  <div class="page-eyebrow">05 — Go-to-Market</div>
+  <h1 class="page-title">Começar com<br><em>pessoas, não anúncios.</em></h1>
+  <p class="page-lead">O perfil de cliente ideal — empresário de PME que já sente a dor — não é alcançado por ads frios. É alcançado por confiança, referência e demonstração prática.</p>
+
+  <h2>Perfil do cliente ideal (ICP)</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">Empresa</div>
+      <div style="font-size:0.78rem;color:#bbb;line-height:1.7">PME de 5–20 funcionários<br>Faturamento R$ 500k–10M/ano<br>Setores: serviços, varejo, B2B</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Decisor</div>
+      <div style="font-size:0.78rem;color:#bbb;line-height:1.7">Dono ou sócio-fundador<br>Toma decisões diretamente<br>Já usa WhatsApp Business, planilhas</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Sinal de compra</div>
+      <div style="font-size:0.78rem;color:#bbb;line-height:1.7">Reclama de "não ter tempo"<br>Tomou decisão ruim recente<br>Já testou ChatGPT mas não escalou</div>
+    </div>
+  </div>
+
+  <h2>Canais — ordem de prioridade</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Canal 1 — Rede direta</div>
+      <div class="tl-title">Almoços, eventos, grupos de empresários</div>
+      <div class="tl-body">Exatamente como o insight nasceu. 1 cliente piloto gerado de uma conversa vale mais do que 1.000 impressões em anúncio. Foco nos primeiros 5 clientes.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Canal 2 — Conteúdo</div>
+      <div class="tl-title">LinkedIn com linguagem do problema, não da solução</div>
+      <div class="tl-body">Posts sobre clareza, decisão e tempo — não sobre IA e agentes. O insight do texto original é o diferencial: falar a língua de quem sente a dor.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Canal 3 — Indicação</div>
+      <div class="tl-title">Programa de referral entre clientes</div>
+      <div class="tl-body">Empresários indicam para outros empresários. Com produto que funciona, NPS alto vira canal. Cada cliente satisfeito traz 1,5 novos em média.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Canal 4 — Parcerias</div>
+      <div class="tl-title">Contadores, consultorias de gestão, aceleradoras</div>
+      <div class="tl-body">Profissionais que já atendem o ICP e ganham comissão por indicação qualificada. Escalável sem custo fixo alto.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. PLANO 90 DIAS ══ -->
+<section class="section" id="plano90">
+  <div class="page-eyebrow">06 — Plano de Execução</div>
+  <h1 class="page-title">90 dias para<br><em>provar o modelo.</em></h1>
+  <p class="page-lead">O objetivo dos primeiros 90 dias não é construir um produto. É provar que você consegue entregar valor real para um empresário real — e que ele pagaria para continuar.</p>
+
+  <h2>Mês 1 — Validação</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Semana 1</div>
+      <div class="tl-title">10 entrevistas de problema</div>
+      <div class="tl-body">Empresários do almoço + rede próxima. Roteiro focado em dor, não em solução. Você ouve, não vende.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Semana 2</div>
+      <div class="tl-title">Post de validação de linguagem + oferta fantasma</div>
+      <div class="tl-body">LinkedIn com a dor descrita com as palavras deles. 1 pág descrevendo o piloto. Manda para 20 pessoas. Mede interesse real.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Semana 3–4</div>
+      <div class="tl-title">Fechar 1 cliente piloto pago</div>
+      <div class="tl-body">R$ 3k–5k pelo projeto de 30 dias. Manual, sem produto. Você faz a "instalação de contexto" do negócio dele.</div>
+    </div>
+  </div>
+
+  <h2>Mês 2 — Entrega do piloto</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Semana 5–6</div>
+      <div class="tl-title">Auditoria de contexto</div>
+      <div class="tl-body">Mapear as 5 decisões recorrentes mais importantes. Onde está a informação hoje (WhatsApp, Drive, planilhas, reuniões). Stack: Otter.ai + Notion + Claude.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Semana 7–8</div>
+      <div class="tl-title">Primeira entrega — briefing semanal</div>
+      <div class="tl-body">1 página toda segunda-feira: o que aconteceu, o que está pendente, o que merece atenção. Entrega manual, mas com processo replicável.</div>
+    </div>
+  </div>
+
+  <h2>Mês 3 — Iteração e expansão</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Semana 9–10</div>
+      <div class="tl-title">Revisar e documentar o processo</div>
+      <div class="tl-body">O que funcionou, o que foi mais valioso, quanto tempo levou. Isso vira a metodologia do produto.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Semana 11–12</div>
+      <div class="tl-title">Pergunta de R$ 2M</div>
+      <div class="tl-body">"Você pagaria R$ 1.200/mês para continuar tendo isso?" Se sim com 2 de 3 clientes piloto — você tem product-market fit. Começa a construir o produto real.</div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+  <h3>Métricas de sucesso dos 90 dias</h3>
+  <table>
+    <thead><tr><th>Métrica</th><th>Meta</th><th>Sinal</th></tr></thead>
+    <tbody>
+      <tr><td class="hi">Entrevistas realizadas</td><td class="gold">≥ 10</td><td>Dor validada qualitativamente</td></tr>
+      <tr><td class="hi">Clientes piloto pagos</td><td class="gold">≥ 2</td><td>Disposição de pagar confirmada</td></tr>
+      <tr><td class="hi">NPS após 30 dias</td><td class="gold">≥ 8</td><td>Valor entregue percebido</td></tr>
+      <tr><td class="hi">Conversão para assinatura</td><td class="gold">≥ 1</td><td>Model recorrente validado</td></tr>
+      <tr><td class="hi">Horas/semana de entrega</td><td class="gold">≤ 8h</td><td>Margem de escala viável</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══ 7. FINANCEIRO ══ -->
+<section class="section" id="financeiro">
+  <div class="page-eyebrow">07 — Projeção Financeira</div>
+  <h1 class="page-title">Break-even<br><em>antes do mês 12.</em></h1>
+  <p class="page-lead">Modelo conservador. Premissas baseadas em churn de mercado para serviços B2B de alto valor e crescimento orgânico sem mídia paga na fase inicial.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">Investimento inicial</div>
+      <div class="card-value gold">R$ 75–100k</div>
+      <div class="card-sub">MVP + lançamento + 6m runway</div>
+    </div>
+    <div class="card green">
+      <div class="card-label">Break-even operacional</div>
+      <div class="card-value green">~Mês 8</div>
+      <div class="card-sub">Com crescimento de 10%/mês</div>
+    </div>
+    <div class="card green">
+      <div class="card-label">ARR — Mês 24</div>
+      <div class="card-value green">R$ 7–15M</div>
+      <div class="card-sub">1% do SOM a R$ 1.200/mês</div>
+    </div>
+    <div class="card">
+      <div class="card-label">ROI — Mês 24</div>
+      <div class="card-value gold">+400%</div>
+      <div class="card-sub">Sobre investimento inicial</div>
+    </div>
+  </div>
+
+  <h2>Composição do investimento inicial</h2>
+  <table>
+    <thead><tr><th>Item</th><th>Faixa</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td class="hi">MVP Manual (fase piloto)</td><td class="gold">R$ 0</td><td>Notion + Claude + Otter. Sem dev.</td></tr>
+      <tr><td class="hi">MVP Digital (após validação)</td><td class="gold">R$ 15–40k</td><td>RAG básico + interface web simples</td></tr>
+      <tr><td class="hi">Marketing de lançamento</td><td class="gold">R$ 10–20k</td><td>Conteúdo + eventos + early adopters</td></tr>
+      <tr><td class="hi">Runway operacional (6 meses)</td><td class="gold">R$ 50–60k</td><td>Salários + infra + ferramentas</td></tr>
+      <tr><td class="hi" style="color:var(--gold)">TOTAL</td><td class="gold" style="font-weight:700">R$ 75–120k</td><td>Após validação do piloto</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Cenários — ARR mês 24</h2>
+  <table>
+    <thead><tr><th>Cenário</th><th>Clientes</th><th>Ticket médio</th><th>ARR mês 24</th></tr></thead>
+    <tbody>
+      <tr><td>Conservador</td><td>200</td><td>R$ 700</td><td class="gold">R$ 1,7M</td></tr>
+      <tr><td class="hi">Base</td><td>860</td><td>R$ 1.200</td><td class="gold">R$ 12,4M</td></tr>
+      <tr><td>Otimista</td><td>2.400</td><td>R$ 1.800</td><td class="gold">R$ 51,8M</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══ 8. RISCOS ══ -->
+<section class="section" id="riscos">
+  <div class="page-eyebrow">08 — Riscos</div>
+  <h1 class="page-title">O que pode<br><em>dar errado.</em></h1>
+  <p class="page-lead">Riscos identificados e mitigações planejadas. A honestidade sobre os riscos é o que torna o plano confiável.</p>
+
+  <h2>Riscos críticos</h2>
+  <div style="margin: 1rem 0">
+
+    <div class="risk-row">
+      <div class="risk-level high"></div>
+      <div>
+        <div class="risk-title">Churn alto — o principal risco do modelo</div>
+        <div class="risk-body">Se o churn mensal passar de 7-8%, o LTV desaba e o modelo deixa de ser atraente. Mitigação: foco em onboarding de qualidade, CS proativo nos primeiros 90 dias do cliente, e contexto acumulado que cria custo de troca alto.</div>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-level high"></div>
+      <div>
+        <div class="risk-title">Dificuldade de escalar entrega com qualidade</div>
+        <div class="risk-body">O modelo de serviço+plataforma é intensivo no início. Mitigação: processar e documentar cada piloto para construir playbooks replicáveis. A transição para self-service precisa acontecer antes de 50 clientes.</div>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-level mid"></div>
+      <div>
+        <div class="risk-title">PME não pagar por "clareza" — categoria nova</div>
+        <div class="risk-body">Empresários pequenos são sensíveis a preço e céticos com tecnologia nova. Mitigação: vender resultado ("você vai economizar X horas por semana"), não categoria. O piloto pago valida isso antes de qualquer investimento maior.</div>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-level mid"></div>
+      <div>
+        <div class="risk-title">Concorrência de grandes players</div>
+        <div class="risk-body">Omie, Conta Azul ou Google poderiam lançar algo parecido. Mitigação: velocidade de execução e contexto acumulado por cliente são difíceis de replicar. Quem chegar primeiro com o método certo, ganha.</div>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-level low"></div>
+      <div>
+        <div class="risk-title">Custo de infraestrutura de IA crescente</div>
+        <div class="risk-body">Custo de LLMs pode subir. Mitigação: preço elástico para cima conforme valor entregue, e margem bruta alta (80%) cria buffer. Tendência histórica é de queda de custo, não alta.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 9. PROTÓTIPO DASHBOARD ══ -->
+<section class="section" id="prototipo">
+  <div class="page-eyebrow">09 — Protótipo do Produto</div>
+  <h1 class="page-title">O produto que o<br><em>empresário veria.</em></h1>
+  <p class="page-lead">Simulação navegável da interface principal — o painel de clareza que o empresário acessa toda segunda-feira de manhã.</p>
+
+  <div class="proto-shell">
+    <div class="proto-topbar">
+      <div class="proto-dots">
+        <div class="proto-dot" style="background:#3a2a2a"></div>
+        <div class="proto-dot" style="background:#3a3a2a"></div>
+        <div class="proto-dot" style="background:#2a3a2a"></div>
+      </div>
+      <div class="proto-url">app.clareza.com.br/dashboard</div>
+    </div>
+
+    <div class="proto-tabs">
+      <div class="proto-tab on" onclick="setProtoTab(this,'dash-panel')">Dashboard</div>
+      <div class="proto-tab" onclick="setProtoTab(this,'context-panel')">Contexto</div>
+      <div class="proto-tab" onclick="setProtoTab(this,'decisions-panel')">Decisões</div>
+    </div>
+
+    <!-- DASHBOARD PANEL -->
+    <div id="dash-panel" class="dash">
+      <div class="dash-nav">
+        <div class="dash-nav-brand">Clareza</div>
+        <div class="dash-nav-item on">📊 Dashboard</div>
+        <div class="dash-nav-item">💬 Perguntar</div>
+        <div class="dash-nav-item">📋 Briefing</div>
+        <div class="dash-nav-item">🗂 Contexto</div>
+        <div class="dash-nav-item">⚙️ Config</div>
+      </div>
+      <div class="dash-content">
+        <div class="dash-header">
+          <div class="dash-greeting">Segunda-feira, 9 de junho · Semana 23</div>
+          <div class="dash-title">Bom dia, Rafael. Aqui está o que importa essa semana.</div>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="kpi-l">Faturamento mês</div>
+            <div class="kpi-v">R$ 187k</div>
+            <div class="kpi-d">↑ 12% vs mai</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-l">Propostas abertas</div>
+            <div class="kpi-v">8</div>
+            <div class="kpi-d">↑ 3 novas</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-l">Pendências críticas</div>
+            <div class="kpi-v">3</div>
+            <div class="kpi-d down">↑ requer ação</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-l">Satisfação clientes</div>
+            <div class="kpi-v">8,4</div>
+            <div class="kpi-d">↓ 0,3 vs sem. ant.</div>
+          </div>
+        </div>
+
+        <div class="briefing">
+          <div class="briefing-head">
+            <div class="briefing-title">Síntese da semana — gerado pela Clareza</div>
+            <div class="briefing-badge">IA + contexto seu</div>
+          </div>
+          <div class="briefing-item">
+            <div class="bi-icon">⚠️</div>
+            <div class="bi-text"><strong>Cliente Grupo Martins</strong> não respondeu a proposta enviada há 12 dias. Na reunião de 28/mai você havia dito que seria estratégico fechar até junho.</div>
+          </div>
+          <div class="briefing-item">
+            <div class="bi-icon">📈</div>
+            <div class="bi-text"><strong>Vendas de serviços recorrentes subiram 18%</strong> — consistente com a decisão de focar nesse modelo tomada em fev. Contexto: 3 meses de execução do novo playbook.</div>
+          </div>
+          <div class="briefing-item">
+            <div class="bi-icon">🔴</div>
+            <div class="bi-text"><strong>Colaborador Pedro</strong> faltou 3 vezes nas últimas 2 semanas. Lucas mencionou isso na daily de quarta — nenhuma ação registrada ainda.</div>
+          </div>
+          <div class="briefing-item">
+            <div class="bi-icon">💡</div>
+            <div class="bi-text"><strong>Oportunidade:</strong> 2 clientes perguntaram sobre treinamentos nas últimas semanas. Você havia considerado isso em março mas não avançou. Pode ser hora de retomar.</div>
+          </div>
+        </div>
+
+        <div style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem">Decisões pendentes</div>
+        <div class="decisions">
+          <div class="dec">
+            <div class="dec-tag">Urgente</div>
+            <div class="dec-q">Renovar contrato com fornecedor de logística?</div>
+            <div class="dec-a">Prazo: 15/jun · Contexto disponível: 3 reuniões + histórico de custos</div>
+          </div>
+          <div class="dec">
+            <div class="dec-tag">Esta semana</div>
+            <div class="dec-q">Contratar ou terceirizar suporte ao cliente?</div>
+            <div class="dec-a">Discutido em 3 reuniões desde abril · Sem conclusão</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTEXT PANEL -->
+    <div id="context-panel" class="dash" style="display:none">
+      <div class="dash-nav">
+        <div class="dash-nav-brand">Clareza</div>
+        <div class="dash-nav-item">📊 Dashboard</div>
+        <div class="dash-nav-item">💬 Perguntar</div>
+        <div class="dash-nav-item">📋 Briefing</div>
+        <div class="dash-nav-item on">🗂 Contexto</div>
+        <div class="dash-nav-item">⚙️ Config</div>
+      </div>
+      <div class="dash-content">
+        <div class="dash-header">
+          <div class="dash-greeting">Base de conhecimento do seu negócio</div>
+          <div class="dash-title">47 fontes indexadas · Atualizado há 2h</div>
+        </div>
+        <table>
+          <thead><tr><th>Fonte</th><th>Tipo</th><th>Itens</th><th>Última atualização</th></tr></thead>
+          <tbody>
+            <tr><td class="hi">Reuniões de equipe</td><td>Transcrições</td><td class="gold">23</td><td>Hoje, 08:30</td></tr>
+            <tr><td class="hi">Conversas WhatsApp</td><td>Mensagens</td><td class="gold">1.247</td><td>Hoje, 09:15</td></tr>
+            <tr><td class="hi">Planilha financeira</td><td>Dados</td><td class="gold">18 abas</td><td>Ontem</td></tr>
+            <tr><td class="hi">Propostas comerciais</td><td>Documentos</td><td class="gold">34</td><td>3 dias atrás</td></tr>
+            <tr><td class="hi">E-mails importantes</td><td>Comunicações</td><td class="gold">89</td><td>Hoje, 07:00</td></tr>
+            <tr><td class="hi">Google Drive</td><td>Arquivos</td><td class="gold">156</td><td>2 dias atrás</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:1rem;padding:0.8rem;background:#0d0d0d;border:1px solid var(--border);border-radius:4px">
+          <div style="font-size:0.65rem;color:var(--muted);margin-bottom:0.5rem">SAÚDE DO CONTEXTO</div>
+          <div style="font-size:0.75rem;color:#bbb;line-height:1.7">
+            ✓ Reuniões dos últimos 60 dias indexadas<br>
+            ✓ Decisões-chave identificadas e categorizadas<br>
+            ⚠ WhatsApp do grupo "Diretoria" não conectado ainda<br>
+            ✗ Notas do CRM não integradas
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECISIONS PANEL -->
+    <div id="decisions-panel" class="dash" style="display:none">
+      <div class="dash-nav">
+        <div class="dash-nav-brand">Clareza</div>
+        <div class="dash-nav-item">📊 Dashboard</div>
+        <div class="dash-nav-item">💬 Perguntar</div>
+        <div class="dash-nav-item">📋 Briefing</div>
+        <div class="dash-nav-item">🗂 Contexto</div>
+        <div class="dash-nav-item on" style="color:var(--gold);border-left:2px solid var(--gold)">⚖️ Decisões</div>
+      </div>
+      <div class="dash-content">
+        <div class="dash-header">
+          <div class="dash-greeting">Decisões identificadas pelo sistema</div>
+          <div class="dash-title">6 decisões pendentes · 2 urgentes</div>
+        </div>
+        <table>
+          <thead><tr><th>Decisão</th><th>Urgência</th><th>Contexto disponível</th><th>Última menção</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="hi">Renovar contrato logística</td>
+              <td class="red">Urgente</td>
+              <td>Alta — 3 reuniões + dados</td>
+              <td>3 dias atrás</td>
+            </tr>
+            <tr>
+              <td class="hi">Contratar suporte ao cliente</td>
+              <td style="color:#8a7a3a">Média</td>
+              <td>Alta — 4 menções</td>
+              <td>Semana passada</td>
+            </tr>
+            <tr>
+              <td class="hi">Abrir filial Sul?</td>
+              <td style="color:#8a7a3a">Média</td>
+              <td>Parcial — 2 menções</td>
+              <td>2 semanas atrás</td>
+            </tr>
+            <tr>
+              <td class="hi">Treinamento para equipe comercial</td>
+              <td class="green">Baixa</td>
+              <td>Baixa — 1 menção</td>
+              <td>Mês passado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /proto-shell -->
+</section>
+
+<!-- ══ 10. PROTÓTIPO CHAT ══ -->
+<section class="section" id="chat">
+  <div class="page-eyebrow">10 — Protótipo do Produto</div>
+  <h1 class="page-title">Perguntar ao<br><em>negócio.</em></h1>
+  <p class="page-lead">O empresário faz uma pergunta sobre o próprio negócio — e recebe uma resposta que usa o histórico real de reuniões, decisões e dados da empresa.</p>
+
+  <div class="proto-shell">
+    <div class="proto-topbar">
+      <div class="proto-dots">
+        <div class="proto-dot" style="background:#3a2a2a"></div>
+        <div class="proto-dot" style="background:#3a3a2a"></div>
+        <div class="proto-dot" style="background:#2a3a2a"></div>
+      </div>
+      <div class="proto-url">app.clareza.com.br/perguntar</div>
+    </div>
+
+    <div class="chat-wrap">
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg">
+          <div class="msg-avatar">C</div>
+          <div class="msg-bubble">
+            Olá, Rafael. Estou com acesso ao contexto completo do seu negócio — 47 fontes indexadas, incluindo reuniões dos últimos 60 dias. O que você precisa entender hoje?
+          </div>
+        </div>
+        <div class="msg user">
+          <div class="msg-avatar">R</div>
+          <div class="msg-bubble">Por que as vendas caíram em março?</div>
+        </div>
+        <div class="msg">
+          <div class="msg-avatar">C</div>
+          <div class="msg-bubble">
+            Com base no contexto do seu negócio, identifico <strong>3 fatores principais</strong> que contribuíram para a queda de março:<br><br>
+            <strong>1. Saída do vendedor Carlos (02/mar):</strong> Ele respondia por 34% das suas vendas recorrentes. Na reunião de 15/mar, Lucas mencionou que a carteira ficou sem acompanhamento por 3 semanas.<br><br>
+            <strong>2. Proposta Grupo Viana não fechada:</strong> Era a maior proposta em aberto (R$ 45k). Você decidiu aguardar resposta, mas ela foi perdida para concorrente em 22/mar.<br><br>
+            <strong>3. Foco da equipe na nova operação:</strong> Nas dailies de fev-mar, 60% das reuniões eram sobre implantação do novo cliente Alfa — o que reduziu prospecção ativa.
+            <div class="msg-source">📎 Fontes: Reunião 15/mar · Daily 22/mar · Planilha comercial Q1</div>
+          </div>
+        </div>
+        <div class="msg user">
+          <div class="msg-avatar">R</div>
+          <div class="msg-bubble">E o que foi decidido para não repetir isso?</div>
+        </div>
+        <div class="msg">
+          <div class="msg-avatar">C</div>
+          <div class="msg-bubble">
+            Na reunião de 28/mar foram tomadas <strong>2 decisões formais</strong>:<br><br>
+            1. Contratar novo vendedor até 30/abr — <span style="color:#c87070">ainda não executado conforme registros</span><br>
+            2. Implementar revisão semanal de pipeline toda segunda-feira<br><br>
+            A decisão 1 está em aberto. Quer que eu marque isso como pendência urgente no painel?
+            <div class="msg-source">📎 Fonte: Ata reunião 28/mar</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" type="text" placeholder="Pergunte sobre o seu negócio..." onkeydown="handleChat(event)"/>
+        <button class="chat-send" onclick="sendChat()">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem">
+    <h3>Exemplos de perguntas que o sistema responde</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem">
+      <span class="pill gold">Por que perdemos o cliente X?</span>
+      <span class="pill gold">O que ficou pendente da reunião de quinta?</span>
+      <span class="pill gold">Quais clientes não falamos há mais de 30 dias?</span>
+      <span class="pill gold">Qual era o plano para o produto Y?</span>
+      <span class="pill gold">Quem é responsável pela meta de vendas?</span>
+      <span class="pill gold">O que decidimos sobre o escritório novo?</span>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+// ── Navigation ──
+function go(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── Proto tabs ──
+function setProtoTab(el, panelId) {
+  document.querySelectorAll('.proto-tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  ['dash-panel','context-panel','decisions-panel'].forEach(id => {
+    const p = document.getElementById(id);
+    if (p) p.style.display = id === panelId ? 'grid' : 'none';
+  });
+}
+
+// ── Chat ──
+const chatResponses = [
+  "Com base no histórico de reuniões e dados do seu negócio, consigo identificar os padrões relevantes. Para uma resposta mais precisa, poderia detalhar um pouco mais o contexto?",
+  "Encontrei 3 menções a esse tema nas últimas 4 semanas. Na reunião de terça passada, Lucas mencionou algo relacionado — quer que eu traga o trecho completo?",
+  "Esse é um ponto interessante. Cruçando as informações das planilhas com o que foi discutido nas reuniões de planejamento, vejo uma tendência que vale atenção.",
+  "Conforme o histórico do seu negócio, a última decisão formal sobre esse tema foi em março. Ela ainda está em aberto — deseja marcá-la como pendência urgente?"
+];
+let chatIdx = 0;
+
+function handleChat(e) { if (e.key === 'Enter') sendChat(); }
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msgs = document.getElementById('chat-messages');
+  const text = input.value.trim();
+  if (!text) return;
+
+  // user msg
+  msgs.innerHTML += `
+    <div class="msg user">
+      <div class="msg-avatar">R</div>
+      <div class="msg-bubble">${text}</div>
+    </div>`;
+
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // ai response
+  setTimeout(() => {
+    msgs.innerHTML += `
+      <div class="msg">
+        <div class="msg-avatar">C</div>
+        <div class="msg-bubble">${chatResponses[chatIdx % chatResponses.length]}
+          <div class="msg-source">📎 Contexto: reuniões + dados do negócio</div>
+        </div>
+      </div>`;
+    chatIdx++;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 900);
+}
+</script>
+</body>
+</html>

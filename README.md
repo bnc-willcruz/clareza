@@ -4,7 +4,9 @@
 
 Modelos de IA viraram commodity. O ativo defensável de uma empresa é o seu contexto estruturado e proprietário. A Clareza.ia ajuda PMEs a transformar IA de discurso em capacidade operacional — incorporando-a à forma como decidem, não apenas às ferramentas que adotam.
 
-Projeto criado e mantido por **William Cruz** — 10 anos escalando operações de marketplace na Uber e no iFood.
+Hoje isso é entregue como **consultoria** apoiada em ferramentas próprias (o diagnóstico Compass.ia e sistemas operacionais sob medida). A visão de longo prazo é evoluir esse método para uma **plataforma de inteligência de contexto** para pequenos negócios.
+
+Projeto criado e mantido por **William Cruz** — 10 anos escalando operações de marketplace na Uber e no iFood. Um operador que não só aconselha sobre IA, mas constrói os sistemas que a colocam para funcionar.
 
 🔗 Site: https://clarezaia-pmes.netlify.app
 
@@ -17,6 +19,10 @@ Projeto criado e mantido por **William Cruz** — 10 anos escalando operações 
 | [`site/`](./site) | Site institucional da Clareza.ia (HTML/Tailwind) |
 | [`compass-ia/`](./compass-ia) | Compass.ia — diagnóstico interativo de prontidão para IA (React) |
 | [`case-dolce-vita/`](./case-dolce-vita) | Estudo de caso: IA aplicada a um micro negócio real |
+| [`apps-script/`](./apps-script) | Sistema **em produção** — parser de WhatsApp + painel vivo (Google Apps Script) |
+| [`prototipos/`](./prototipos) | Protótipos navegáveis: plataforma, piloto, demo de fluxo e simulador de mercado |
+| [`docs/`](./docs) | Tese, análise de mercado e roadmap |
+| [`prompts/`](./prompts) | Réguas de captura de contexto via WhatsApp |
 
 ---
 

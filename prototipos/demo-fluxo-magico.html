@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dolce Vita × Clareza — Demonstração</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream: #faf6f0;
+  --parchment: #f2ebe0;
+  --biscuit: #e8d5b8;
+  --caramel: #c49a5a;
+  --cacao: #3d2a18;
+  --espresso: #1e1208;
+  --glace: #d4657a;
+  --glace-lt: #fdf0f3;
+  --sage: #5a8a5a;
+  --sage-lt: #eaf2ea;
+  --wa-bg: #e5ddd5;
+  --wa-green: #dcf8c6;
+  --wa-dark: #075e54;
+  --muted: #8a6e54;
+  --dim: #c4ae96;
+  --border: #e0d0ba;
+  --ff-serif: 'Cormorant Garamond', Georgia, serif;
+  --ff-sans: 'DM Sans', sans-serif;
+  --ff-mono: 'DM Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--espresso);
+  font-family: var(--ff-sans);
+  color: var(--cacao);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center;
+}
+
+/* ── INTRO ── */
+.intro {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  max-width: 480px;
+}
+.intro-brand {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--caramel);
+  margin-bottom: 0.6rem;
+}
+.intro h1 {
+  font-family: var(--ff-serif);
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  font-weight: 300; line-height: 1.2;
+  color: var(--cream);
+}
+.intro h1 em { color: var(--glace); font-style: italic; }
+.intro p {
+  font-size: 0.85rem; color: #b8a890;
+  margin-top: 0.8rem; line-height: 1.7;
+}
+.play-btn {
+  margin-top: 1.5rem;
+  background: var(--glace); color: white;
+  border: none; border-radius: 30px;
+  padding: 0.85rem 2.2rem;
+  font-family: var(--ff-sans); font-size: 0.9rem; font-weight: 500;
+  cursor: pointer; transition: transform 0.15s, opacity 0.15s;
+}
+.play-btn:hover { transform: scale(1.04); opacity: 0.92; }
+
+/* ── STAGE ── */
+.stage {
+  width: 100%; max-width: 920px;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 1rem 2rem;
+  align-items: start;
+}
+.stage.on { display: grid; }
+
+/* ── PHONE ── */
+.phone {
+  background: #111;
+  border-radius: 28px;
+  padding: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  max-width: 380px;
+  margin: 0 auto;
+  width: 100%;
+}
+.phone-screen {
+  background: var(--wa-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  height: 560px;
+}
+.wa-header {
+  background: var(--wa-dark);
+  color: white;
+  padding: 0.7rem 0.9rem;
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.wa-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--glace-lt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.wa-name { font-size: 0.8rem; font-weight: 600; }
+.wa-status { font-size: 0.62rem; opacity: 0.8; }
+.wa-messages {
+  flex: 1; overflow-y: auto;
+  padding: 0.8rem 0.7rem;
+  display: flex; flex-direction: column; gap: 0.45rem;
+  background-image: radial-gradient(circle at 20% 30%, rgba(212,101,122,0.04) 0%, transparent 50%);
+}
+.wa-msg {
+  max-width: 82%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+  animation: msgIn 0.3s ease both;
+  white-space: pre-line;
+  position: relative;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.wa-msg.in { background: white; align-self: flex-start; border-top-left-radius: 2px; }
+.wa-msg.out { background: var(--wa-green); align-self: flex-end; border-top-right-radius: 2px; }
+.wa-time {
+  font-size: 0.55rem; color: #999;
+  text-align: right; margin-top: 2px;
+}
+.wa-typing {
+  background: white; align-self: flex-start;
+  padding: 0.6rem 0.9rem; border-radius: 8px;
+  display: flex; gap: 4px; align-items: center;
+  animation: msgIn 0.2s ease both;
+}
+.wa-typing .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #bbb; animation: tbounce 1.2s infinite;
+}
+.wa-typing .dot:nth-child(2) { animation-delay: 0.2s; }
+.wa-typing .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes tbounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-4px)} }
+
+.copilot-hint {
+  align-self: flex-end;
+  background: var(--glace-lt);
+  border: 1px dashed var(--glace);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.65rem;
+  color: var(--glace);
+  max-width: 85%;
+  animation: msgIn 0.3s ease both;
+}
+.copilot-hint .ch-label {
+  font-family: var(--ff-mono);
+  font-size: 0.52rem; letter-spacing: 0.12em;
+  text-transform: uppercase; opacity: 0.7;
+  margin-bottom: 3px;
+}
+
+/* ── PAINEL ── */
+.painel {
+  background: var(--cream);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  max-width: 460px;
+  width: 100%;
+  margin: 0 auto;
+}
+.painel-header {
+  background: var(--espresso);
+  padding: 0.9rem 1.1rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ph-brand {
+  font-family: var(--ff-serif);
+  font-size: 0.95rem; color: var(--cream);
+}
+.ph-brand em { color: var(--glace); font-style: italic; }
+.ph-live {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--ff-mono);
+  font-size: 0.55rem; color: var(--sage);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #5aba5a; animation: pulse 1.8s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.painel-kpis {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+}
+.pk {
+  background: var(--cream);
+  padding: 0.8rem 0.7rem;
+  text-align: center;
+}
+.pk-label {
+  font-family: var(--ff-mono);
+  font-size: 0.52rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 3px;
+}
+.pk-value {
+  font-family: var(--ff-mono);
+  font-size: 1.05rem; font-weight: 500;
+  color: var(--cacao);
+  transition: all 0.3s;
+}
+.pk-value.flash { animation: flash 0.8s ease; }
+@keyframes flash {
+  0% { color: var(--glace); transform: scale(1.15); }
+  100% { color: var(--cacao); transform: scale(1); }
+}
+.pk-value.pink { color: var(--glace); }
+
+.painel-body { padding: 0.9rem 1rem 1.1rem; }
+.pb-title {
+  font-family: var(--ff-mono);
+  font-size: 0.56rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.pipe-col-mini { margin-bottom: 0.8rem; }
+.pipe-label {
+  font-size: 0.6rem; color: var(--dim);
+  font-family: var(--ff-mono);
+  margin-bottom: 0.35rem;
+  display: flex; justify-content: space-between;
+}
+.pipe-count { color: var(--caramel); }
+
+.mini-order {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--biscuit);
+  border-radius: 5px;
+  padding: 0.5rem 0.65rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.68rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.mini-order.new {
+  animation: orderIn 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  border-left-color: var(--glace);
+  background: var(--glace-lt);
+}
+@keyframes orderIn {
+  0% { opacity: 0; transform: translateX(40px) scale(0.9); }
+  60% { transform: translateX(-4px) scale(1.02); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+.mo-name { font-weight: 600; color: var(--cacao); }
+.mo-desc { font-size: 0.6rem; color: var(--muted); margin-top: 1px; }
+.mo-value {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem; color: var(--glace);
+  font-weight: 500; white-space: nowrap;
+}
+.mo-badge {
+  font-size: 0.5rem; font-family: var(--ff-mono);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  background: var(--glace); color: white;
+  border-radius: 3px; padding: 1px 5px;
+  margin-left: 5px;
+  animation: pulse 1.5s infinite;
+}
+
+/* notification toast */
+.toast {
+  position: fixed;
+  top: 18px; left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  background: var(--espresso);
+  color: var(--cream);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  font-size: 0.74rem;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  z-index: 999;
+  transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  border: 1px solid #3d2a18;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast-icon { font-size: 1.2rem; }
+.toast strong { color: var(--glace); }
+
+/* ── FINALE ── */
+.finale {
+  display: none;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  max-width: 520px;
+}
+.finale.on { display: block; animation: msgIn 0.5s ease both; }
+.finale h2 {
+  font-family: var(--ff-serif);
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-weight: 300; color: var(--cream);
+  line-height: 1.25;
+}
+.finale h2 em { color: var(--glace); font-style: italic; }
+.finale p { font-size: 0.82rem; color: #b8a890; margin-top: 0.8rem; line-height: 1.7; }
+.finale-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 0.7rem; margin-top: 1.5rem;
+}
+.fs {
+  background: #2a1808;
+  border: 1px solid #3d2a18;
+  border-radius: 10px;
+  padding: 0.9rem 0.5rem;
+}
+.fs-num {
+  font-family: var(--ff-mono);
+  font-size: 1.3rem; color: var(--glace);
+}
+.fs-label {
+  font-size: 0.6rem; color: #8a7560;
+  margin-top: 3px; line-height: 1.4;
+}
+.replay-btn {
+  margin-top: 1.8rem;
+  background: transparent; color: var(--caramel);
+  border: 1px solid var(--caramel);
+  border-radius: 30px;
+  padding: 0.6rem 1.6rem;
+  font-family: var(--ff-sans); font-size: 0.78rem;
+  cursor: pointer; transition: all 0.15s;
+}
+.replay-btn:hover { background: var(--caramel); color: var(--espresso); }
+
+.step-caption {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--caramel);
+  padding: 0.5rem;
+  min-height: 2rem;
+  transition: opacity 0.4s;
+}
+
+@media (max-width: 760px) {
+  .stage { grid-template-columns: 1fr; }
+  .phone-screen { height: 480px; }
+  .painel { max-width: 380px; }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div class="intro" id="intro">
+  <div class="intro-brand">Clareza × Dolce Vita</div>
+  <h1>O que acontece quando<br>um pedido chega<br><em>no seu WhatsApp?</em></h1>
+  <p>Bianca, aperta o play e assiste 60 segundos.<br>É o seu ateliê — só que sem nada se perder.</p>
+  <button class="play-btn" onclick="startDemo()">▶ Ver a mágica acontecer</button>
+</div>
+
+<!-- STAGE -->
+<div class="stage" id="stage">
+  <div class="step-caption" id="caption">Uma cliente acabou de te chamar...</div>
+
+  <!-- PHONE -->
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="wa-header">
+        <div class="wa-avatar">👩</div>
+        <div>
+          <div class="wa-name">Mariana Lopes</div>
+          <div class="wa-status" id="wa-status">online</div>
+        </div>
+      </div>
+      <div class="wa-messages" id="wa-messages"></div>
+    </div>
+  </div>
+
+  <!-- PAINEL -->
+  <div class="painel">
+    <div class="painel-header">
+      <div class="ph-brand">Painel <em>Dolce Vita</em></div>
+      <div class="ph-live"><div class="live-dot"></div> ao vivo</div>
+    </div>
+    <div class="painel-kpis">
+      <div class="pk">
+        <div class="pk-label">Em negociação</div>
+        <div class="pk-value" id="kpi-neg">2</div>
+      </div>
+      <div class="pk">
+        <div class="pk-label">Fechados / semana</div>
+        <div class="pk-value" id="kpi-fechados">3</div>
+      </div>
+      <div class="pk">
+        <div class="pk-label">GMV junho</div>
+        <div class="pk-value pink" id="kpi-gmv">R$ 1.840</div>
+      </div>
+    </div>
+    <div class="painel-body">
+      <div class="pb-title">Pipeline de pedidos</div>
+
+      <div class="pipe-col-mini">
+        <div class="pipe-label"><span>EM NEGOCIAÇÃO</span><span class="pipe-count" id="count-neg">2</span></div>
+        <div id="col-negociacao">
+          <div class="mini-order">
+            <div>
+              <div class="mo-name">Camila B.</div>
+              <div class="mo-desc">Aniversário unicórnio · 30 un</div>
+            </div>
+            <div class="mo-value">~R$ 240</div>
+          </div>
+          <div class="mini-order">
+            <div>
+              <div class="mo-name">Empresa Nortex</div>
+              <div class="mo-desc">Corporativo · 50 un logo</div>
+            </div>
+            <div class="mo-value">~R$ 450</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pipe-col-mini">
+        <div class="pipe-label"><span>FECHADOS</span><span class="pipe-count" id="count-fec">3</span></div>
+        <div id="col-fechados">
+          <div class="mini-order">
+            <div>
+              <div class="mo-name">Agência Plural</div>
+              <div class="mo-desc">80 un com logo · sex 13/jun</div>
+            </div>
+            <div class="mo-value">R$ 720</div>
+          </div>
+          <div class="mini-order">
+            <div>
+              <div class="mo-name">Família Carvalho</div>
+              <div class="mo-desc">Casamento · 60 un · sáb</div>
+            </div>
+            <div class="mo-value">R$ 480</div>
+          </div>
+          <div class="mini-order">
+            <div>
+              <div class="mo-name">Renata P.</div>
+              <div class="mo-desc">Jardim · 30 un · sáb</div>
+            </div>
+            <div class="mo-value">R$ 240</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINALE -->
+<div class="finale" id="finale">
+  <h2>Isso. Toda semana.<br><em>Sem você anotar nada.</em></h2>
+  <p>A conversa que você já tem no WhatsApp vira pedido registrado, agenda organizada e número na sua mão. Sua única tarefa: fazer os biscoitos mais lindos de Jundiaí. 🍪</p>
+  <div class="finale-stats">
+    <div class="fs">
+      <div class="fs-num">0 min</div>
+      <div class="fs-label">de planilha para preencher</div>
+    </div>
+    <div class="fs">
+      <div class="fs-num">100%</div>
+      <div class="fs-label">dos pedidos registrados</div>
+    </div>
+    <div class="fs">
+      <div class="fs-num">1 olhar</div>
+      <div class="fs-label">para saber tudo do ateliê</div>
+    </div>
+  </div>
+  <button class="replay-btn" onclick="location.reload()">↺ Ver de novo</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">🍪</div>
+  <div>Pedido <strong>Mariana Lopes</strong> registrado automaticamente</div>
+</div>
+
+<script>
+const messagesEl = document.getElementById('wa-messages');
+const captionEl = document.getElementById('caption');
+
+const script = [
+  { type: 'caption', text: 'Uma cliente acabou de te chamar...' },
+  { type: 'in', text: 'Oii! Vi seus biscoitos no Instagram, são lindos demais 😍', delay: 1400 },
+  { type: 'in', text: 'Queria encomendar pra festa da minha filha, tema Moana! Vocês fazem?', delay: 1800 },
+  { type: 'caption', text: 'Você conversa normalmente, como sempre fez' },
+  { type: 'out', text: 'Oi Mariana! Que alegria 🥰 Fazemos sim, Moana fica linda com glacê! Pra quantas crianças seria?', delay: 2000 },
+  { type: 'in', text: 'Uns 40 biscoitos! A festa é dia 27/06', delay: 1800 },
+  { type: 'out', text: 'Perfeito! 40 biscoitos tema Moana, com as cores do mar e flores 🌺 Fica R$ 340 com tudo personalizado', delay: 2200 },
+  { type: 'in', text: 'Amei!! Pode fechar! 🎉', delay: 1600 },
+  { type: 'caption', text: 'A cliente decidiu — hora da régua de fechamento ✨' },
+  { type: 'copilot', text: 'Cliente pronta para fechar! Sugestão: enviar régua de confirmação /fechar', delay: 1600 },
+  { type: 'out', text: 'Que alegria! 🍪✨\nPara eu reservar sua data, me confirma:\n\n✏️ Nome completo:\n📅 Data da entrega:\n🎨 Tema / cores:\n🔢 Quantidade:\n\n💰 Valor: R$ 340\nSinal de 50% via Pix reserva sua data 💕', delay: 2400 },
+  { type: 'in', text: '✏️ Mariana Lopes da Silva\n📅 27/06 de manhã\n🎨 Moana, tons de azul e flores\n🔢 40 biscoitos\n\nPix enviado! ✅', delay: 2800 },
+  { type: 'caption', text: 'E agora... olha o painel 👉' },
+  { type: 'magic', delay: 1200 },
+  { type: 'caption', text: 'A conversa virou pedido. Sozinha. ✨' },
+  { type: 'finale', delay: 3000 },
+];
+
+let idx = 0;
+
+function startDemo() {
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('stage').classList.add('on');
+  next();
+}
+
+function next() {
+  if (idx >= script.length) return;
+  const step = script[idx++];
+
+  if (step.type === 'caption') {
+    captionEl.style.opacity = 0;
+    setTimeout(() => {
+      captionEl.textContent = step.text;
+      captionEl.style.opacity = 1;
+    }, 300);
+    setTimeout(next, 600);
+    return;
+  }
+
+  if (step.type === 'in' || step.type === 'out') {
+    if (step.type === 'in') {
+      // typing indicator first
+      const typing = document.createElement('div');
+      typing.className = 'wa-typing';
+      typing.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      messagesEl.appendChild(typing);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      document.getElementById('wa-status').textContent = 'digitando...';
+
+      setTimeout(() => {
+        typing.remove();
+        document.getElementById('wa-status').textContent = 'online';
+        addMsg(step);
+        setTimeout(next, 500);
+      }, Math.min(step.delay, 1600));
+    } else {
+      setTimeout(() => {
+        addMsg(step);
+        setTimeout(next, 500);
+      }, step.delay * 0.4);
+    }
+    return;
+  }
+
+  if (step.type === 'copilot') {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'copilot-hint';
+      el.innerHTML = `<div class="ch-label">✨ Copiloto Clareza</div>${step.text}`;
+      messagesEl.appendChild(el);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      setTimeout(next, 1400);
+    }, step.delay * 0.5);
+    return;
+  }
+
+  if (step.type === 'magic') {
+    setTimeout(() => {
+      // toast
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+
+      // new order in pipeline
+      const col = document.getElementById('col-fechados');
+      const order = document.createElement('div');
+      order.className = 'mini-order new';
+      order.innerHTML = `
+        <div>
+          <div class="mo-name">Mariana Lopes <span class="mo-badge">novo</span></div>
+          <div class="mo-desc">Moana · 40 un · 27/jun · sinal pago</div>
+        </div>
+        <div class="mo-value">R$ 340</div>`;
+      col.insertBefore(order, col.firstChild);
+
+      // update KPIs
+      setTimeout(() => {
+        const f = document.getElementById('kpi-fechados');
+        f.textContent = '4';
+        f.classList.add('flash');
+        const c = document.getElementById('count-fec');
+        c.textContent = '4';
+      }, 400);
+
+      setTimeout(() => {
+        const g = document.getElementById('kpi-gmv');
+        g.textContent = 'R$ 2.180';
+        g.classList.add('flash');
+      }, 800);
+
+      setTimeout(next, 1500);
+    }, step.delay);
+    return;
+  }
+
+  if (step.type === 'finale') {
+    setTimeout(() => {
+      document.getElementById('stage').classList.remove('on');
+      document.getElementById('finale').classList.add('on');
+      window.scrollTo(0, 0);
+    }, step.delay);
+    return;
+  }
+}
+
+function addMsg(step) {
+  const el = document.createElement('div');
+  el.className = `wa-msg ${step.type}`;
+  const time = step.type === 'in' ? '14:0' + (2 + Math.floor(idx/3)) : '14:0' + (2 + Math.floor(idx/3));
+  el.innerHTML = `${escapeHtml(step.text)}<div class="wa-time">${time} ${step.type === 'out' ? '✓✓' : ''}</div>`;
+  messagesEl.appendChild(el);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
